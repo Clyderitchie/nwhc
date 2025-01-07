@@ -2,23 +2,10 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { useSession } from "./SessionProvider";
+import UserButton from "@/components/UserButton";
 
 export default function Navbar() {
   const { user } = useSession() || { user: null };
-//   const [formData, setFormData] = useState({
-//     projectName: "",
-//     projectLink: "",
-//     githubLink: "",
-//     bio: "",
-//   });
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
 
   return (
     <header className="sticky top-0 z-20 bg-card shadow-sm">
@@ -27,6 +14,7 @@ export default function Navbar() {
           NWHC
         </Link>
         <div className="flex items-center justify-around px-2">
+            <UserButton className="sm:ms-auto" />
         </div>
       </div>
     </header>
