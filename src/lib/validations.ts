@@ -19,3 +19,16 @@ export const loginSchema = z.object({
 });
 
 export type LoginValues = z.infer<typeof loginSchema>;
+
+
+export const createBandSchema = z.object({
+  bandName: requiredString,
+  bandPic: z.string().optional(),
+  bandBio: requiredString,
+  bandCampLink: z.string().optional(),
+  bandAppleLink: z.string().optional(),
+  bandSpotifyLink: z.string().optional(),
+  bandOtherMusicLink: z.string().optional(),
+});
+
+export type CreateProjectValues = z.infer<typeof createBandSchema>;
