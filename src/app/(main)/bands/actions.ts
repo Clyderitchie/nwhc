@@ -4,6 +4,7 @@ import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { BandData, getBandDataSelect } from "@/lib/types";
 import { createBandSchema } from "@/lib/validations";
+import { notFound } from "next/navigation";
 
 export async function NewBand(input: {
   bandName: string;
@@ -81,21 +82,30 @@ export async function DeleteBand(bandId: string) {
 }
 
 export async function FindBandById(id: string) {
-    try {
-        const band = await prisma.band.findUnique({
-            where: { id },
-            select: {
-                id: true,
-                bandName: true,
-                bandPic: true,
-                bandBio: true,
-                bandCampLink: true,
-                bandAppleLink: true,
-                bandSpotifyLink: true,
-            }
-        });
-        return band;
-    } catch (error) {
-        console.error("Error searching")
-    }
+  try {
+    const band = await prisma.band.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        bandName: true,
+        bandPic: true,
+        bandBio: true,
+        bandCampLink: true,
+        bandAppleLink: true,
+        bandSpotifyLink: true,
+      },
+    });
+    return band;
+  } catch (error) {
+    console.error("Error searching");
+  }
+}
+
+export async function getBand(id: string) {
+  const band = await prisma.band.findFirst({
+    where: { id: id },
+    select: getBandDataSelect(),
+  });
+  if (!band) notFound();
+  return band;
 }

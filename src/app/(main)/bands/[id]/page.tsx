@@ -1,34 +1,46 @@
-import { validateRequest } from "@/auth";
-import prisma from "@/lib/prisma";
-import { bandDataSelect } from "@/lib/types";
 import { notFound } from "next/navigation";
-import { cache } from "react";
+import { getBand } from "../actions";
+import Image from "next/image";
 
 interface PageProps {
   params: { id: string };
 }
 
-const getBand = cache(async (id: string) => {
-  const band = await prisma.band.findFirst({
-    where: {
-      id: id,
-    },
-    select: bandDataSelect,
-  });
-
-  if (!band) notFound();
-  return band;
-});
-
 export default async function BandPage({ params: { id } }: PageProps) {
-  const { user } = await validateRequest();
-
   const band = await getBand(id);
+  if (!band) {
+    notFound();
+  }
+
   console.log("Band from Id and bandPage function: ", band);
 
   return (
     <>
-      <div>{band ? <div>{band.bandName}</div> : <p>band not found</p>}</div>
+      <div className="min-h-screen w-full">
+        <div className="w-full">
+          {band ? (
+            <div className="min-h-screen flex-col">
+              <div className="my-5 min-h-fit border">
+                {band.bandName}
+                {band.bandPic && (
+                  <Image
+                    src={band.bandPic}
+                    alt={band.bandName}
+                    width={200}
+                    height={300}
+                  />
+                )}
+              </div>
+              <div className="my-5 border">
+                {band.bandBio} Band bio in this div
+              </div>
+              <div className="my-5 border">Any band media in this div</div>
+            </div>
+          ) : (
+            <p>band not found</p>
+          )}
+        </div>
+      </div>
     </>
   );
 }
