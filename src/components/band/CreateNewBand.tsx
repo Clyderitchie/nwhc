@@ -34,13 +34,41 @@ export default function CreateBand({
   const { user } = useSession();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    let imageUrl = "";
+
+    if (file) {
+      const cloudName = "your-cloud-name";
+      const uploadPreset = "your-upload-preset";
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "dgayr62l");
+      formData.append("api_key", "684664141884165");
+
+      try {
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          { method: "POST", body: formData },
+        );
+        if (res.ok) {
+          const data = await res.json();
+          imageUrl = data.url;
+        } else {
+          throw new Error("Failed to upload image.");
+        }
+      } catch (error) {
+        console.error("Error uploading image: ", error);
+        setIsSubmitting(false);
+        return;
+      }
+    }
 
     const bandData = {
       bandName: formData.bandName,
-      bandPic: formData.bandPic,
+      bandPic: imageUrl,
       bandBio: formData.bandBio,
       bandCampLink: formData.bandCampLink,
       bandAppleLink: formData.bandAppleLink,
@@ -76,11 +104,18 @@ export default function CreateBand({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-              <Input
+              {/* <Input
                 name="bandPic"
                 placeholder="Band Pic"
                 value={formData.bandPic}
                 onChange={handleChange}
+                className="my-7 min-w-full"
+              /> */}
+              <input
+                type="file"
+                onChange={(e) =>
+                  setFile(e.target.files ? e.target.files[0] : null)
+                }
                 className="my-7 min-w-full"
               />
               <Input
