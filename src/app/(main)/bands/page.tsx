@@ -1,5 +1,6 @@
 "use client"
 
+import BandList from "@/components/band/BandList";
 import CreateBand from "@/components/band/CreateNewBand"
 import { useState } from "react";
 
@@ -31,6 +32,7 @@ export default function Bands() {
               isSubmitting={false}
               setIsSubmitting={() => {}}
               />
+              <BandList />
         </div>
         </>
     )

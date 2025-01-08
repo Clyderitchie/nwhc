@@ -51,11 +51,12 @@ export default function CreateBand({
     try {
       const newBand = await NewBand(bandData);
       router.push(`/bands`);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to created a band");
     } finally {
       setIsSubmitting(false);
-      setIsModalOpen(true);
+      setIsModalOpen(false);
     }
   };
 

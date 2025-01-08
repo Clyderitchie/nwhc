@@ -2,6 +2,7 @@
 
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
+import { BandData, getBandDataSelect } from "@/lib/types";
 import { createBandSchema } from "@/lib/validations";
 
 export async function NewBand(input: {
@@ -40,4 +41,18 @@ export async function NewBand(input: {
     } catch (error) {
         console.error("Error creating new band");
     }
-}
+};
+
+export async function FindAllBands(): Promise<BandData[]> {
+
+    try {
+        const bands = await prisma.band.findMany({
+            select: getBandDataSelect(),
+        });
+        console.log("Found all bands", bands);
+        return bands;
+    } catch (error) {
+        console.error("Error find all bands");
+        return [];
+    }
+};
