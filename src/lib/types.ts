@@ -32,3 +32,13 @@ export function getBandDataSelect() {
 export type BandData = Prisma.BandGetPayload<{
   select: ReturnType<typeof getBandDataSelect>;
 }>;
+
+export const bandDataSelect = {
+  id: true,
+  bandName: true,
+  bandPic: true,
+  bandBio: true,
+  bandCampLink: true,
+  bandAppleLink: true,
+  bandSpotifyLink: true,
+} satisfies Prisma.BandSelect;

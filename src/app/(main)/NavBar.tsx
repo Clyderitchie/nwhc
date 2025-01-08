@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { useSession } from "./SessionProvider";
 import UserButton from "@/components/UserButton";
+import SearchField from "@/components/SearchField";
 
 export default function Navbar() {
   const { user } = useSession() || { user: null };
@@ -13,6 +14,9 @@ export default function Navbar() {
         <Link href="/" className="text-2xl font-bold text-primary">
           NWHC
         </Link>
+        <div>
+            <SearchField />
+        </div>
         <div className="flex items-center justify-around px-2">
             <UserButton className="sm:ms-auto" />
         </div>

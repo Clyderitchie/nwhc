@@ -3,6 +3,7 @@
 import { FindAllBands } from "@/app/(main)/bands/actions";
 import { BandData } from "@/lib/types";
 import { useEffect, useState } from "react";
+import BandDelete from "./DeleteBand";
 
 export default function BandList() {
   const [bands, setBands] = useState<BandData[]>([]);
@@ -29,6 +30,7 @@ export default function BandList() {
         {filteredBands.map((band) => (
           <li key={band.id}>
             <h1>{band.bandName}</h1>
+            <div><BandDelete bandId={band.id}/></div>
           </li>
         ))}
       </div>
