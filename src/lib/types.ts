@@ -26,6 +26,7 @@ export function getBandDataSelect() {
     bandCampLink: true,
     bandAppleLink: true,
     bandSpotifyLink: true,
+    bandOtherMusicLink: true,
   } satisfies Prisma.BandSelect;
 }
 
@@ -41,4 +42,5 @@ export const bandDataSelect = {
   bandCampLink: true,
   bandAppleLink: true,
   bandSpotifyLink: true,
+  bandOtherMusicLink: true,
 } satisfies Prisma.BandSelect;

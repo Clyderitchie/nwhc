@@ -28,6 +28,7 @@ export async function NewBand(input: {
       bandCampLink,
       bandAppleLink,
       bandSpotifyLink,
+      bandOtherMusicLink,
     } = parsedData;
 
     const bandData = {
@@ -37,6 +38,7 @@ export async function NewBand(input: {
       bandCampLink,
       bandAppleLink,
       bandSpotifyLink,
+      bandOtherMusicLink,
       createdAt: new Date(),
     };
 
@@ -93,6 +95,7 @@ export async function FindBandById(id: string) {
         bandCampLink: true,
         bandAppleLink: true,
         bandSpotifyLink: true,
+        bandOtherMusicLink: true,
       },
     });
     return band;
