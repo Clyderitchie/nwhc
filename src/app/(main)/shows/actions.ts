@@ -48,7 +48,7 @@ export async function FindAllShows(): Promise<ShowData[]> {
 export async function getShow(id: string) {
     const show = await prisma.show.findFirst({
         where: { id: id },
-        select: getComputedStyle(),
+        // select: getComputedStyle(),
     })
     if (!show) notFound();
     return show;

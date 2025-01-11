@@ -106,11 +106,15 @@ export default function CreateBand({
               />
               <input
                 type="file"
-                onChange={(e) =>
-                  setFile(e.target.files ? e.target.files[0] : null)
-                }
-                className="my-7 min-w-full"
+                onChange={(e) => {
+                  console.log(
+                    "File selected:",
+                    e.target.files ? e.target.files[0] : null,
+                  );
+                  setFile(e.target.files ? e.target.files[0] : null);
+                }}
               />
+
               <Input
                 name="bandBio"
                 placeholder="Band Bio"
