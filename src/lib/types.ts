@@ -34,6 +34,19 @@ export type BandData = Prisma.BandGetPayload<{
   select: ReturnType<typeof getBandDataSelect>;
 }>;
 
+export function getShowDataSelect() {
+  return {
+    id: true,
+    showName: true,
+    flyerLink: true,
+    showInfo: true,
+  } satisfies Prisma.ShowSelect;
+}
+
+export type ShowData = Prisma.ShowGetPayload<{
+  select: ReturnType<typeof getShowDataSelect>;
+}>;
+
 export const bandDataSelect = {
   id: true,
   bandName: true,
@@ -44,3 +57,16 @@ export const bandDataSelect = {
   bandSpotifyLink: true,
   bandOtherMusicLink: true,
 } satisfies Prisma.BandSelect;
+
+// export function getShowDataSelect() {
+//   return {
+//     id: true,
+//     showName: true,
+//     flyerLink: true,
+//     showInfo: true,
+//   } satisfies Prisma.ShowSelect;
+// }
+
+// export type ShowData = Prisma.ShowGetPayload<{
+//   select: ReturnType<typeof getShowDataSelect>;
+// }>;

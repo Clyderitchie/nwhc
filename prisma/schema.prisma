@@ -1,17 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
@@ -35,7 +29,7 @@ model Session {
 }
 
 model Band {
-  id                 String   @id() @default(cuid())
+  id                 String   @id @default(cuid())
   bandName           String
   bandPic            String?
   bandBio            String
@@ -46,4 +40,14 @@ model Band {
   createdAt          DateTime @default(now())
 
   @@map("bands")
+}
+
+model Show {
+  id        String   @id @default(cuid())
+  showName  String
+  flyerLink String
+  showInfo  String
+  createdAt DateTime @default(now())
+
+  @@map("shows")
 }
