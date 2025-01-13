@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { getBand } from "../actions";
 import Image from "next/image";
-import { Music } from "lucide-react";
 import BandLinks from "@/components/band/BandLinks";
 
 interface PageProps {

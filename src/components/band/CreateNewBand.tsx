@@ -104,6 +104,13 @@ export default function CreateBand({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
+              {/* <Input
+                name="bandPic"
+                placeholder="Band Pic"
+                value={formData.bandPic}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              /> */}
               <input
                 type="file"
                 onChange={(e) =>

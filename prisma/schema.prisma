@@ -44,6 +44,23 @@ model Band {
   bandSpotifyLink    String?
   bandOtherMusicLink String?
   createdAt          DateTime @default(now())
+  Media              Media[]
 
   @@map("bands")
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  bandId    String?
+  band      Band?     @relation(fields: [bandId], references: [id], onDelete: SetNull)
+  type      MediaType
+  url       String
+  createdAt DateTime  @default(now())
+
+  @@map("band_media")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
