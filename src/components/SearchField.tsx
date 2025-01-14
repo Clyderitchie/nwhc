@@ -24,7 +24,8 @@ export default function SearchField() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    router.push(`/bands?q=${query}`);
+    await Promise.all([ router.push(`/bands?q=${query}`), router.push(`/shows?q=${query}`) ]);
+    // router.push(`/bands?q=${query}`);
     setIsModalOpen(false);
   }
 

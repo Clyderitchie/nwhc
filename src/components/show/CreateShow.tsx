@@ -1,36 +1,33 @@
 "use client";
 
-import { NewBand } from "@/app/(main)/bands/actions";
 import { useSession } from "@/app/(main)/SessionProvider";
+import { NewShow } from "@/app/(main)/shows/actions";
 import { CirclePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-interface CreateNewBandProps {
+interface CreateNewShowProps {
   className?: string;
   formData: {
-    bandName: string;
-    bandPic: string;
-    bandBio: string;
-    bandCampLink: string;
-    bandAppleLink: string;
-    bandSpotifyLink: string;
-    bandOtherMusicLink: string;
+    showName: string;
+    flyerLink: string;
+    showInfo: string;
+    bandId: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
 
-export default function CreateBand({
+export default function CreateShow({
   className,
   formData,
   handleChange,
   isSubmitting,
   setIsSubmitting,
-}: CreateNewBandProps) {
+}: CreateNewShowProps) {
   const { user } = useSession();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +35,7 @@ export default function CreateBand({
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    let imageUrl = "";
+    let showImageUrl = "";
 
     if (file) {
       const cloudName = "your-cloud-name";
@@ -55,7 +52,7 @@ export default function CreateBand({
         );
         if (res.ok) {
           const data = await res.json();
-          imageUrl = data.url;
+          showImageUrl = data.url;
         } else {
           throw new Error("Failed to upload image.");
         }
@@ -66,22 +63,18 @@ export default function CreateBand({
       }
     }
 
-    const bandData = {
-      bandName: formData.bandName,
-      bandPic: imageUrl,
-      bandBio: formData.bandBio,
-      bandCampLink: formData.bandCampLink,
-      bandAppleLink: formData.bandAppleLink,
-      bandSpotifyLink: formData.bandSpotifyLink,
-      bandOtherMusicLink: formData.bandOtherMusicLink,
+    const showData = {
+      showName: formData.showName,
+      flyerLink: showImageUrl,
+      showInfo: formData.showInfo,
     };
 
     try {
-      const newBand = await NewBand(bandData);
-      router.push(`/bands`);
+      const newShow = await NewShow(showData);
+      router.push(`/shows`);
       window.location.reload();
     } catch (error) {
-      console.error("Failed to created a band");
+      console.error("Error creating the show");
     } finally {
       setIsSubmitting(false);
       setIsModalOpen(false);
@@ -95,22 +88,15 @@ export default function CreateBand({
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="text-center text-2xl">New Band Information:</h2>
+            <h2 className="text-center text-2xl">New Show Information:</h2>
             <div>
               <Input
-                name="bandName"
-                placeholder="Band Name"
-                value={formData.bandName}
+                name="showName"
+                placeholder="Show Name"
+                value={formData.showName}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-              {/* <Input
-                name="bandPic"
-                placeholder="Band Pic"
-                value={formData.bandPic}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              /> */}
               <input
                 type="file"
                 onChange={(e) => {
@@ -121,39 +107,10 @@ export default function CreateBand({
                   setFile(e.target.files ? e.target.files[0] : null);
                 }}
               />
-
               <Input
-                name="bandBio"
-                placeholder="Band Bio"
-                value={formData.bandBio}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandCampLink"
-                placeholder="Band Camp link"
-                value={formData.bandCampLink}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandAppleLink"
-                placeholder="Apple Music link"
-                value={formData.bandAppleLink}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandSpotifyLink"
-                placeholder="Spotify Link"
-                value={formData.bandSpotifyLink}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandOtherMusicLink"
-                placeholder="Other music link"
-                value={formData.bandOtherMusicLink}
+                name="showInfo"
+                placeholder="Show Info"
+                value={formData.showInfo}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
