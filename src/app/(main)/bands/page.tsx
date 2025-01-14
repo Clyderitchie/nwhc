@@ -1,14 +1,13 @@
-"use client"
+"use client";
 
 import BandList from "@/components/band/BandList";
 
 export default function Bands() {
-
-    return (
-        <>              
-        <div className="border flex justify-center items-start min-h-screen max-h-screen min-w-full max-w-full">
-              <BandList />
-        </div>
-        </>
-    )
+  return (
+    <>
+      <div className="flex max-h-screen min-h-screen min-w-full max-w-full items-start justify-center">
+        <BandList />
+      </div>
+    </>
+  );
 }
