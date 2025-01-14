@@ -21,14 +21,15 @@ export default function Shows() {
   };
   return (
     <>
-      <h1>Shows</h1>
-      <div>
+      <div className="flex justify-center items-center">
         <CreateShow
           formData={formData}
           handleChange={handleChange}
           isSubmitting={false}
           setIsSubmitting={() => {}}
         />
+      </div>
+      <div className="flex max-h-screen min-h-screen min-w-full max-w-full items-start justify-center">
         <ShowList />
       </div>
     </>

@@ -31,13 +31,41 @@ export default function CreateShow({
   const { user } = useSession();
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    let showImageUrl = "";
+
+    if (file) {
+      const cloudName = "your-cloud-name";
+      const uploadPreset = "your-upload-preset";
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "dgayr62l");
+      formData.append("api_key", "684664141884165");
+
+      try {
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          { method: "POST", body: formData },
+        );
+        if (res.ok) {
+          const data = await res.json();
+          showImageUrl = data.url;
+        } else {
+          throw new Error("Failed to upload image.");
+        }
+      } catch (error) {
+        console.error("Error uploading image: ", error);
+        setIsSubmitting(false);
+        return;
+      }
+    }
 
     const showData = {
       showName: formData.showName,
-      flyerLink: formData.flyerLink,
+      flyerLink: showImageUrl,
       showInfo: formData.showInfo,
     };
 
@@ -60,7 +88,7 @@ export default function CreateShow({
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="text-center text-2xl">New Band Information:</h2>
+            <h2 className="text-center text-2xl">New Show Information:</h2>
             <div>
               <Input
                 name="showName"
@@ -69,12 +97,15 @@ export default function CreateShow({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-              <Input
-                name="flyerLink"
-                placeholder="Flyer"
-                value={formData.flyerLink}
-                onChange={handleChange}
-                className="my-7 min-w-full"
+              <input
+                type="file"
+                onChange={(e) => {
+                  console.log(
+                    "File selected:",
+                    e.target.files ? e.target.files[0] : null,
+                  );
+                  setFile(e.target.files ? e.target.files[0] : null);
+                }}
               />
               <Input
                 name="showInfo"

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import BandDelete from "./DeleteBand";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 export default function BandList() {
   const [bands, setBands] = useState<BandData[]>([]);
@@ -30,15 +31,25 @@ export default function BandList() {
 
   return (
     <>
-      <div className="max-h-full min-h-full">
+      <div className="my-8 flex flex-wrap md:flex-row max-h-full min-h-full min-w-full max-w-full items-start justify-around gap-4 border">
         {filteredBands.map((band) => (
-          <li key={band.id}>
-            <Link href={`/bands/${band.id}`}>
-            <h1>{band.bandName}</h1>
-            <div><BandDelete bandId={band.id}/></div>
+          <div className="min-h-24 w-full md:w-1/4 border" key={band.id}>
+            <Link className="" href={`/bands/${band.id}`}>
+              <div className="flex-col items-baseline p-5">
+                <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
+                <Image
+                  className="rounded-sm"
+                  src={band.bandPic || "/default-image.png"}
+                  alt={band.bandName}
+                  width={100}
+                  height={75}
+                />
+              </div>
             </Link>
-           
-          </li>
+            <div className="flex justify-end align-baseline">
+              <BandDelete bandId={band.id} />
+            </div>
+          </div>
         ))}
       </div>
     </>

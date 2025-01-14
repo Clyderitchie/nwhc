@@ -1,39 +1,13 @@
-"use client"
+"use client";
 
 import BandList from "@/components/band/BandList";
-import CreateBand from "@/components/band/CreateNewBand"
-import { useState } from "react";
-
 
 export default function Bands() {
-    const [formData, setFormData] = useState({
-        bandName: "",
-        bandPic: "",
-        bandBio: "",
-        bandCampLink: "",
-        bandAppleLink: "",
-        bandSpotifyLink: "",
-        bandOtherMusicLink: ""
-      });
-    
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      };
-    return (
-        <>
-        <h1>Bands</h1>
-        <div>
-            <CreateBand formData={formData}
-              handleChange={handleChange}
-              isSubmitting={false}
-              setIsSubmitting={() => {}}
-              />
-              <BandList />
-        </div>
-        </>
-    )
+  return (
+    <>
+      <div className="flex max-h-screen min-h-screen min-w-full max-w-full items-start justify-center">
+        <BandList />
+      </div>
+    </>
+  );
 }

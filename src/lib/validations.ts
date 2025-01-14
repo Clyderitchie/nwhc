@@ -34,7 +34,7 @@ export type CreateBandValues = z.infer<typeof createBandSchema>;
 
 export const createShowSchema = z.object({
   showName: requiredString,
-  flyerLink: z.string().optional(),
+  flyerLink: z.string(),
   showInfo: requiredString,
 });
 

@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 
 export async function NewShow(input: {
   showName: string;
-  flyerLink?: string;
+  flyerLink: string;
   showInfo: string;
 }) {
   const { user } = await validateRequest();
@@ -19,37 +19,40 @@ export async function NewShow(input: {
     const { showName, flyerLink, showInfo } = parsedData;
 
     const showData = {
-        showName, flyerLink: flyerLink || "", showInfo
+      showName,
+      flyerLink,
+      showInfo,
+      createdAt: new Date(),
     };
 
     const newShow = await prisma.show.create({
-        data: showData
-    })
-    console.log("Created a new show");
-    return newShow
+      data: showData,
+    });
+    console.log("Show data for new show: ", newShow);
+    return newShow;
   } catch (error) {
-    console.error("error creating show");
+    console.error("Create show action error: ", error);
   }
 }
 
 export async function FindAllShows(): Promise<ShowData[]> {
-    try {
-        const shows = await prisma.show.findMany({
-            select: getShowDataSelect(),
-        });
-        console.log("Found Shows")
-        return shows;
-    } catch (error) {
-        console.error("Action error finding shows")
-        return [];
-    }
+  try {
+    const shows = await prisma.show.findMany({
+      select: getShowDataSelect(),
+    });
+    console.log("Found in actions SHOW: ", shows);
+    return shows;
+  } catch (error) {
+    console.error("Failed in actions to find all shows:", error);
+    return [];
+  }
 }
 
 export async function getShow(id: string) {
     const show = await prisma.show.findFirst({
         where: { id: id },
-        // select: getComputedStyle(),
-    })
+        select: getShowDataSelect(),
+    });
     if (!show) notFound();
     return show;
 }
