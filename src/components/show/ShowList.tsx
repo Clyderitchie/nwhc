@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import ShowDelete from "./DeleteShow";
 
 export default function ShowList() {
   const [shows, setShows] = useState<ShowData[]>([]);
@@ -25,14 +26,14 @@ export default function ShowList() {
   }, []);
 
   const filteredShows = shows.filter((show) =>
-    show.showName.toLocaleLowerCase().includes(query)
+    show.showName.toLocaleLowerCase().includes(query),
   );
 
   return (
     <>
-      <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 border md:flex-row">
+      <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {filteredShows.map((show) => (
-          <div className="min-h-24 w-full border md:w-1/4" key={show.id}>
+          <div className="min-h-24 w-full md:w-1/4" key={show.id}>
             <Link href={`/shows/${show.id}`}>
               <div className="flex-col items-baseline p-5">
                 <h1>{show.showName}</h1>
@@ -45,6 +46,9 @@ export default function ShowList() {
                 />
               </div>
             </Link>
+            <div className="justify-end align-baseline hidden md:flex "> 
+                <ShowDelete showId={show.id} />
+            </div>
           </div>
         ))}
       </div>

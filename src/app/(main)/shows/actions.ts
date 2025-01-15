@@ -48,11 +48,28 @@ export async function FindAllShows(): Promise<ShowData[]> {
   }
 }
 
-export async function getShow(id: string) {
-    const show = await prisma.show.findFirst({
-        where: { id: id },
-        select: getShowDataSelect(),
+export async function DeleteShow(showId: string) {
+  const { user } = await validateRequest();
+  if (!user) throw Error("Unauthorized");
+
+  try {
+    const showToDelete = await prisma.show.findUnique({
+      where: { id: showId },
     });
-    if (!show) notFound();
-    return show;
+    if (!showToDelete) throw new Error("Show not found");
+    await prisma.show.delete({
+      where: { id: showId },
+    });
+  } catch (error) {
+    console.error("Error to delete action");
+  }
+}
+
+export async function getShow(id: string) {
+  const show = await prisma.show.findFirst({
+    where: { id: id },
+    select: getShowDataSelect(),
+  });
+  if (!show) notFound();
+  return show;
 }

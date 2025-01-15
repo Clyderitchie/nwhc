@@ -31,9 +31,9 @@ export default function BandList() {
 
   return (
     <>
-      <div className="my-8 flex flex-wrap md:flex-row max-h-full min-h-full min-w-full max-w-full items-start justify-around gap-4 border">
+      <div className="my-8 flex flex-wrap md:flex-row max-h-full min-h-full min-w-full max-w-full items-start justify-around gap-4">
         {filteredBands.map((band) => (
-          <div className="min-h-24 w-full md:w-1/4 border" key={band.id}>
+          <div className="min-h-24 w-full md:w-1/4" key={band.id}>
             <Link className="" href={`/bands/${band.id}`}>
               <div className="flex-col items-baseline p-5">
                 <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
@@ -46,7 +46,7 @@ export default function BandList() {
                 />
               </div>
             </Link>
-            <div className="flex justify-end align-baseline">
+            <div className="justify-end align-baseline hidden md:flex ">
               <BandDelete bandId={band.id} />
             </div>
           </div>

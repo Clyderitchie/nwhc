@@ -90,7 +90,7 @@ export default function CreateBand({
 
   return (
     <>
-      <CirclePlus className={className} onClick={() => setIsModalOpen(true)} />
+      <CirclePlus className={className} onClick={() => setIsModalOpen(true)} /> <span className="text-sm mx-1"> Create new band</span>
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">

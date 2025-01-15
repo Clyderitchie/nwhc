@@ -3,8 +3,10 @@
 import CreateShow from "@/components/show/CreateShow";
 import ShowList from "@/components/show/ShowList";
 import { useState } from "react";
+import { useSession } from "../SessionProvider";
 
 export default function Shows() {
+    const { user } = useSession() || { user: null };
   const [formData, setFormData] = useState({
     showName: "",
     flyerLink: "",
@@ -29,7 +31,7 @@ export default function Shows() {
           setIsSubmitting={() => {}}
         />
       </div>
-      <div className="flex max-h-screen min-h-screen min-w-full max-w-full items-start justify-center">
+      <div className="flex max-h-screen min-h-screen min-w-full items-start justify-center" style={{ maxWidth: '87%', minWidth: '87%' }}>
         <ShowList />
       </div>
     </>
