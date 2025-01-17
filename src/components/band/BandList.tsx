@@ -8,8 +8,11 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 
+const ITEMS_PER_PAGE = 9;
+
 export default function BandList() {
   const [bands, setBands] = useState<BandData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
@@ -29,10 +32,23 @@ export default function BandList() {
     band.bandName.toLocaleLowerCase().includes(query),
   );
 
+  const sortedBands = filteredBands.sort((a, b) => a.bandName.localeCompare(b.bandName) );
+
+  const totalPages = Math.ceil(sortedBands.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const displayedBands = filteredBands.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
   return (
     <>
-      <div className="my-8 flex flex-wrap md:flex-row max-h-full min-h-full min-w-full max-w-full items-start justify-around gap-4">
-        {filteredBands.map((band) => (
+      <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
+        {displayedBands.map((band) => (
           <div className="min-h-24 w-full md:w-1/4" key={band.id}>
             <Link className="" href={`/bands/${band.id}`}>
               <div className="flex-col items-baseline p-5">
@@ -46,10 +62,21 @@ export default function BandList() {
                 />
               </div>
             </Link>
-            <div className="justify-end align-baseline hidden md:flex ">
+            <div className="hidden justify-end align-baseline md:flex">
               <BandDelete bandId={band.id} />
             </div>
           </div>
+        ))}
+      </div>
+      <div className="flex justify-center">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index}
+            onClick={() => handlePageChange(index + 1)}
+            className={`mx-1 px-2 py-1 ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
+          >
+            {index + 1}
+          </button>
         ))}
       </div>
     </>
