@@ -60,6 +60,7 @@ export default function BandList() {
                   width={100}
                   height={75}
                 />
+                <h2>{band.bandOrigin}</h2>
               </div>
             </Link>
             <div className="hidden justify-end align-baseline md:flex">

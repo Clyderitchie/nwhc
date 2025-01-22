@@ -28,6 +28,7 @@ import {
 } from "./ui/dropdown-menu";
 import UserAvatar from "./UserAvatar";
 import { logout } from "@/app/(auth)/actions";
+import AdminPage from "@/app/(main)/admin/page";
 
 interface UserButtonProps {
   className?: string;
@@ -50,6 +51,9 @@ export default function UserButton({ className }: UserButtonProps) {
           <DropdownMenuContent>
             <DropdownMenuLabel>Logged in as @{user.username}</DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/admin`}>Admin Page</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
