@@ -24,15 +24,20 @@ export function getBandDataSelect() {
     bandName: true,
     bandPic: true,
     bandBio: true,
+    bandOrigin: true,
+    bandActive: true,
+    bandYearsActive: true,
     bandCampLink: true,
     bandAppleLink: true,
     bandSpotifyLink: true,
     bandOtherMusicLink: true,
   } satisfies Prisma.BandSelect;
+
 }
 
 export type BandData = Prisma.BandGetPayload<{
   select: ReturnType<typeof getBandDataSelect>;
+  
 }>;
 
 export const bandDataSelect = {
@@ -40,6 +45,9 @@ export const bandDataSelect = {
   bandName: true,
   bandPic: true,
   bandBio: true,
+  bandOrigin: true,
+  bandActive: true,
+  bandYearsActive: true,
   bandCampLink: true,
   bandAppleLink: true,
   bandSpotifyLink: true,

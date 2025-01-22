@@ -25,6 +25,9 @@ export async function NewBand(input: {
       bandName,
       bandPic,
       bandBio,
+      bandOrigin,
+      bandActive,
+      bandYearsActive,
       bandCampLink,
       bandAppleLink,
       bandSpotifyLink,
@@ -35,6 +38,9 @@ export async function NewBand(input: {
       bandName,
       bandPic,
       bandBio,
+      bandOrigin,
+      bandActive,
+      bandYearsActive,
       bandCampLink,
       bandAppleLink,
       bandSpotifyLink,
@@ -49,7 +55,7 @@ export async function NewBand(input: {
     console.log("Created new band");
     return newBand;
   } catch (error) {
-    console.error("Error creating new band");
+    console.error("Error creating new band", error);
   }
 }
 
@@ -61,7 +67,7 @@ export async function FindAllBands(): Promise<BandData[]> {
     console.log("Found all bands", bands);
     return bands;
   } catch (error) {
-    console.error("Error find all bands");
+    console.error("Error find all bands", error);
     return [];
   }
 }
@@ -92,6 +98,9 @@ export async function FindBandById(id: string) {
         bandName: true,
         bandPic: true,
         bandBio: true,
+        bandOrigin: true,
+        bandActive: true,
+        bandYearsActive: true,
         bandCampLink: true,
         bandAppleLink: true,
         bandSpotifyLink: true,

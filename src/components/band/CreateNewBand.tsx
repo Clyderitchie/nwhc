@@ -14,6 +14,9 @@ interface CreateNewBandProps {
     bandName: string;
     bandPic: string;
     bandBio: string;
+    bandOrigin: string;
+    bandActive: string;
+    bandYearsActive: string;
     bandCampLink: string;
     bandAppleLink: string;
     bandSpotifyLink: string;
@@ -70,6 +73,9 @@ export default function CreateBand({
       bandName: formData.bandName,
       bandPic: imageUrl,
       bandBio: formData.bandBio,
+      bandOrigin: formData.bandOrigin,
+      bandActive: formData.bandActive,
+      bandYearsActive: formData.bandYearsActive,
       bandCampLink: formData.bandCampLink,
       bandAppleLink: formData.bandAppleLink,
       bandSpotifyLink: formData.bandSpotifyLink,
@@ -90,8 +96,8 @@ export default function CreateBand({
 
   return (
     <>
-      <CirclePlus className={className} onClick={() => setIsModalOpen(true)} /> <span className="text-sm mx-1"> Create new band</span>
-
+      <CirclePlus className={className} onClick={() => setIsModalOpen(true)} />{" "}
+      <span className="mx-1 text-sm"> Create new band</span>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
@@ -104,13 +110,6 @@ export default function CreateBand({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-              {/* <Input
-                name="bandPic"
-                placeholder="Band Pic"
-                value={formData.bandPic}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              /> */}
               <input
                 type="file"
                 onChange={(e) => {
@@ -126,6 +125,27 @@ export default function CreateBand({
                 name="bandBio"
                 placeholder="Band Bio"
                 value={formData.bandBio}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandOrigin"
+                placeholder="Band Origin"
+                value={formData.bandOrigin}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandActive"
+                placeholder="Band Active"
+                value={formData.bandActive}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+               <Input
+                name="bandYearsActive"
+                placeholder="Band Years Active"
+                value={formData.bandYearsActive}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
