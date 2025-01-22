@@ -21,12 +21,12 @@ export default async function BandPage({ params: { id } }: PageProps) {
         <div className="min-w-full">
           {band ? (
             <div className="min-h-screen flex-col">
-              <div className="my-5 mt-2 min-h-fit  flex justify-between items-baseline border px-2">
+              <div className="my-5 mt-2 min-h-fit  flex justify-between items-baseline px-2">
                <div>
                <h1 className="mb-5 text-3xl font-bold underline">
                   {band.bandName}
                 </h1>
-                <div className="rounded-sm">
+                <div className="rounded-sm my-5">
                   {band.bandPic && (
                     <Image
                       className="rounded-lg"
@@ -49,6 +49,7 @@ export default async function BandPage({ params: { id } }: PageProps) {
                </div>
               </div>
               <div className="my-5">{band.bandBio} Band bio in this div</div>
+              <div>{band.bandOrigin}</div>
             </div>
           ) : (
             <p>band not found</p>

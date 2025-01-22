@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-//  TODO: Refactor layout think mobile first md: screen and larger will be the current layout you have now.
-// Also refactor spacing between the icons
+
 import { useSession } from "./SessionProvider";
 import UserButton from "@/components/UserButton";
 import SearchField from "@/components/SearchField";
 import CreateBand from "@/components/band/CreateNewBand";
-import NavMenu from "@/components/MenuButton";
 
 export default function Navbar() {
   const { user } = useSession() || { user: null };
@@ -14,6 +12,9 @@ export default function Navbar() {
     bandName: "",
     bandPic: "",
     bandBio: "",
+    bandOrigin:  "",
+    bandActive:  "",
+    bandYearsActive:  "",
     bandCampLink: "",
     bandAppleLink: "",
     bandSpotifyLink: "",

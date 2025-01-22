@@ -32,6 +32,9 @@ model Band {
   id                 String   @id @default(cuid())
   bandName           String
   bandPic            String?
+  bandOrigin         String
+  bandActive         String
+  bandYearsActive    String
   bandBio            String
   bandCampLink       String?
   bandAppleLink      String?
@@ -51,4 +54,3 @@ model Show {
 
   @@map("shows")
 }
-

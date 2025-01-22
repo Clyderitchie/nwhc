@@ -24,11 +24,16 @@ export const createBandSchema = z.object({
   bandName: requiredString,
   bandPic: z.string().optional(),
   bandBio: requiredString,
+  bandOrigin: requiredString,
+  bandActive: requiredString,
+  bandYearsActive: requiredString,
   bandCampLink: z.string().optional(),
   bandAppleLink: z.string().optional(),
   bandSpotifyLink: z.string().optional(),
   bandOtherMusicLink: z.string().optional(),
 });
+
+console.log(createBandSchema)
 
 export type CreateBandValues = z.infer<typeof createBandSchema>;
 
