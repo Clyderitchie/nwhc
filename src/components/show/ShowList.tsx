@@ -7,8 +7,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import ShowDelete from "./DeleteShow";
+import { useSession } from "@/app/(main)/SessionProvider";
 
 export default function ShowList() {
+    const { user } = useSession() || { user: null }
   const [shows, setShows] = useState<ShowData[]>([]);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
@@ -46,9 +48,13 @@ export default function ShowList() {
                 />
               </div>
             </Link>
-            <div className="justify-end align-baseline hidden md:flex "> 
-                <ShowDelete showId={show.id} />
-            </div>
+           { user ? (
+             <div className="justify-end align-baseline hidden md:flex "> 
+             <ShowDelete showId={show.id} />
+         </div>
+           ) : (
+            <span></span>
+           )}
           </div>
         ))}
       </div>

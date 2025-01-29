@@ -1,15 +1,18 @@
 "use server";
-
+// TODO: Find All Bands needs to be refactored
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { BandData, getBandDataSelect } from "@/lib/types";
-import { createBandSchema } from "@/lib/validations";
+import { createBandSchema, updateBandSchema } from "@/lib/validations";
 import { notFound } from "next/navigation";
 
 export async function NewBand(input: {
   bandName: string;
   bandPic: string;
   bandBio: string;
+  bandOrigin: string;
+  bandActive: string;
+  bandYearsActive: string;
   bandCampLink: string;
   bandAppleLink: string;
   bandSpotifyLink: string;
@@ -105,6 +108,14 @@ export async function FindBandById(id: string) {
         bandAppleLink: true,
         bandSpotifyLink: true,
         bandOtherMusicLink: true,
+        shows: {
+            select: {
+              id: true,
+              showName: true,
+              flyerLink: true,
+              showInfo: true,
+            },
+          },
       },
     });
     return band;
@@ -120,4 +131,44 @@ export async function getBand(id: string) {
   });
   if (!band) notFound();
   return band;
+}
+
+export async function UpdateBand(input: {
+  bandId: string;
+  bandName: string;
+  bandPic: string;
+  bandBio: string;
+  bandOrigin: string;
+  bandActive: string;
+  bandYearsActive: string;
+  bandCampLink: string;
+  bandAppleLink: string;
+  bandSpotifyLink: string;
+  bandOtherMusicLink: string;
+}) {
+    const { user } = await validateRequest();
+
+    if (!user) throw Error("Unauthorized");
+
+  try {
+    const validateBand = updateBandSchema.parse(input);
+
+    const updateBand = await prisma.band.update({
+      where: { id: validateBand.bandId },
+      data: {
+        bandName: validateBand.bandName,
+        bandPic: validateBand.bandPic,
+        bandBio: validateBand.bandBio,
+        bandOrigin: validateBand.bandOrigin,
+        bandActive: validateBand.bandActive,
+        bandYearsActive: validateBand.bandYearsActive,
+        bandCampLink: validateBand.bandCampLink,
+        bandAppleLink: validateBand.bandAppleLink,
+        bandSpotifyLink: validateBand.bandSpotifyLink,
+        bandOtherMusicLink: validateBand.bandOtherMusicLink,
+      },
+    });
+  } catch (error) {
+    console.error("Error updating band", error);
+  }
 }

@@ -3,6 +3,7 @@ import CreateBand from "@/components/band/CreateNewBand";
 import CreateShow from "@/components/show/CreateShow";
 import { useSession } from "../SessionProvider";
 import { useState } from "react";
+import Link from "next/link";
 
 interface AdminPageProps {
   bandId: string;
@@ -38,21 +39,23 @@ export default function AdminPage({ bandId, showId }: AdminPageProps) {
 
   return (
     <>
-      <h1>Admin page</h1>
-      <div>
-        <CreateBand
-          formData={formData}
-          handleChange={handleChange}
-          isSubmitting={false}
-          setIsSubmitting={() => {}}
-        />
-      </div>
-      <div className="flex justify-center items-center border ">
-      <CreateShow 
-         formData={formData}
-         handleChange={handleChange}
-         isSubmitting={false}
-         setIsSubmitting={() => {}}/>
+      <div className="min-w-full max-w-full flex-col">
+        <div className="my-5">
+          <CreateBand
+            formData={formData}
+            handleChange={handleChange}
+            isSubmitting={false}
+            setIsSubmitting={() => {}}
+          />
+        </div>
+        <div className="my-5">
+          <CreateShow
+            formData={formData}
+            handleChange={handleChange}
+            isSubmitting={false}
+            setIsSubmitting={() => {}}
+          />
+        </div>
       </div>
     </>
   );

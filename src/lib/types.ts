@@ -1,6 +1,5 @@
 import { Prisma } from "@prisma/client";
 
-
 export const userDataSelect = {
   id: true,
   username: true,
@@ -31,13 +30,20 @@ export function getBandDataSelect() {
     bandAppleLink: true,
     bandSpotifyLink: true,
     bandOtherMusicLink: true,
+    show: {
+      select: {
+        id: true,
+        bandId: true,
+        showName: true,
+        showInfo: true,
+        flyerLink: true,
+      },
+    },
   } satisfies Prisma.BandSelect;
-
 }
 
 export type BandData = Prisma.BandGetPayload<{
   select: ReturnType<typeof getBandDataSelect>;
-  
 }>;
 
 export const bandDataSelect = {
@@ -52,14 +58,39 @@ export const bandDataSelect = {
   bandAppleLink: true,
   bandSpotifyLink: true,
   bandOtherMusicLink: true,
+  shows: {
+    select: {
+      id: true,
+      bandId: true,
+      showName: true,
+      showInfo: true,
+      flyerLink: true,
+    },
+  },
 } satisfies Prisma.BandSelect;
 
 export function getShowDataSelect() {
   return {
     id: true,
     showName: true,
+    bandId: true,
     flyerLink: true,
     showInfo: true,
+    band: {
+      select: {
+        id: true,
+        bandName: true,
+        bandPic: true,
+        bandBio: true,
+        bandOrigin: true,
+        bandActive: true,
+        bandYearsActive: true,
+        bandCampLink: true,
+        bandAppleLink: true,
+        bandSpotifyLink: true,
+        bandOtherMusicLink: true,
+      },
+    },
   } satisfies Prisma.ShowSelect;
 }
 

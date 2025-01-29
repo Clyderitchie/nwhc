@@ -41,16 +41,19 @@ model Band {
   bandSpotifyLink    String?
   bandOtherMusicLink String?
   createdAt          DateTime @default(now())
+  show               Show[]
 
   @@map("bands")
 }
 
 model Show {
   id        String   @id @default(cuid())
+  bandId    String?
   showName  String
   flyerLink String
   showInfo  String
   createdAt DateTime @default(now())
+  band      Band?     @relation(fields: [bandId], references: [id])
 
   @@map("shows")
 }

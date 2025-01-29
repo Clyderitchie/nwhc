@@ -3,10 +3,10 @@
 import { FindAllBands } from "@/app/(main)/bands/actions";
 import { BandData } from "@/lib/types";
 import { useEffect, useState } from "react";
-import BandDelete from "./DeleteBand";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import BandUpdate from "./UpdateBand";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -32,7 +32,9 @@ export default function BandList() {
     band.bandName.toLocaleLowerCase().includes(query),
   );
 
-  const sortedBands = filteredBands.sort((a, b) => a.bandName.localeCompare(b.bandName) );
+  const sortedBands = filteredBands.sort((a, b) =>
+    a.bandName.localeCompare(b.bandName),
+  );
 
   const totalPages = Math.ceil(sortedBands.length / ITEMS_PER_PAGE);
 
@@ -49,7 +51,10 @@ export default function BandList() {
     <>
       <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {displayedBands.map((band) => (
-          <div className="min-h-24 w-full md:w-1/4" key={band.id}>
+          <div
+            className="max-h-60 min-h-60 w-full rounded-md border bg-card shadow-xl md:w-1/4"
+            key={band.id}
+          >
             <Link className="" href={`/bands/${band.id}`}>
               <div className="flex-col items-baseline p-5">
                 <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
@@ -60,12 +65,11 @@ export default function BandList() {
                   width={100}
                   height={75}
                 />
-                <h2>{band.bandOrigin}</h2>
+                <h2 className="my-2">Origin: {band.bandOrigin}</h2>
+                <h3 className="">Years Active: {band.bandYearsActive}</h3>
               </div>
             </Link>
-            <div className="hidden justify-end align-baseline md:flex">
-              <BandDelete bandId={band.id} />
-            </div>
+
           </div>
         ))}
       </div>
@@ -83,3 +87,4 @@ export default function BandList() {
     </>
   );
 }
+
