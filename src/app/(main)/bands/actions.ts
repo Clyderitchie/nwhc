@@ -108,7 +108,7 @@ export async function FindBandById(id: string) {
         bandAppleLink: true,
         bandSpotifyLink: true,
         bandOtherMusicLink: true,
-        shows: {
+        show: {
             select: {
               id: true,
               showName: true,

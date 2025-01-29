@@ -1,16 +1,12 @@
 "use client";
+
 import CreateBand from "@/components/band/CreateNewBand";
 import CreateShow from "@/components/show/CreateShow";
 import { useSession } from "../SessionProvider";
 import { useState } from "react";
-import Link from "next/link";
 
-interface AdminPageProps {
-  bandId: string;
-  showId: string;
-}
 
-export default function AdminPage({ bandId, showId }: AdminPageProps) {
+export default function AdminPage() {
   const { user } = useSession();
   const [formData, setFormData] = useState({
     bandName: "",
@@ -29,7 +25,7 @@ export default function AdminPage({ bandId, showId }: AdminPageProps) {
     bandId: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
