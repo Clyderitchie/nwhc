@@ -19,7 +19,7 @@ export default function BandDelete({ bandId }: BandDeleteProps) {
     try {
       await DeleteBand(bandId);
       alert("Band was successfully deleted");
-      window.location.reload();
+      window.location.href = "/bands";
     } catch (error) {
       console.error("Failed to delete the band");
     } finally {

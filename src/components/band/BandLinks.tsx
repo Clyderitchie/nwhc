@@ -27,7 +27,7 @@ export default function BandLinks({
     <>
       <div className="flex items-center justify-between">
         <Music onClick={handleMusicIconClick} />
-        <span className="ms-1">Music links.</span>
+        {/* <span className="ms-3">Music links.</span> */}
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">

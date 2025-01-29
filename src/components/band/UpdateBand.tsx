@@ -1,50 +1,58 @@
 "use client";
 
-import { NewBand } from "@/app/(main)/bands/actions";
-import { useSession } from "@/app/(main)/SessionProvider";
-import { CirclePlus } from "lucide-react";
+import { UpdateBand } from "@/app/(main)/bands/actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { CirclePlus } from "lucide-react";
 
-interface CreateNewBandProps {
-  className?: string;
+interface BandUpdateProps {
   formData: {
-    bandName: string;
-    bandPic: string;
-    bandBio: string;
-    bandOrigin: string;
-    bandActive: string;
-    bandYearsActive: string;
-    bandCampLink: string;
-    bandAppleLink: string;
-    bandSpotifyLink: string;
-    bandOtherMusicLink: string;
-    showName?: string;
-    showImageUrl?: String;
-    showInfo?: string;
+    bandId: string;
+    bandName?: string;
+    bandPic?: string;
+    bandBio?: string;
+    bandOrigin?: string;
+    bandActive?: string;
+    bandYearsActive?: string;
+    bandCampLink?: string;
+    bandAppleLink?: string;
+    bandSpotifyLink?: string;
+    bandOtherMusicLink?: string;
   };
+
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
 
-export default function CreateBand({
-  className,
+export default function BandUpdate({
   formData,
   handleChange,
   isSubmitting,
   setIsSubmitting,
-}: CreateNewBandProps) {
-  const { user } = useSession();
+}: BandUpdateProps) {
+  //   const [formData, setFormData] = useState({
+  //     bandId: "",
+  //     bandName: "",
+  //     bandPic: "",
+  //     bandBio: "",
+  //     bandOrigin: "",
+  //     bandActive: "",
+  //     bandYearsActive: "",
+  //     bandCampLink: "",
+  //     bandAppleLink: "",
+  //     bandSpotifyLink: "",
+  //     bandOtherMusicLink: "",
+  //   });
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    let imageUrl = "";
+    let imageUrl = formData.bandPic;
 
     if (file) {
       const cloudName = "your-cloud-name";
@@ -72,7 +80,8 @@ export default function CreateBand({
       }
     }
 
-    const bandData = {
+    const updatedBandData = {
+      bandId: formData.bandId,
       bandName: formData.bandName,
       bandPic: imageUrl,
       bandBio: formData.bandBio,
@@ -83,20 +92,11 @@ export default function CreateBand({
       bandAppleLink: formData.bandAppleLink,
       bandSpotifyLink: formData.bandSpotifyLink,
       bandOtherMusicLink: formData.bandOtherMusicLink,
-      shows: formData.showName
-        ? [
-            {
-              showName: formData.showName,
-              flyerLink: formData.showImageUrl,
-              showInfo: formData.showInfo,
-            },
-          ]
-        : [],
     };
 
     try {
-      const newBand = await NewBand(bandData);
-      router.push(`/bands`);
+      const UpdatedBand = await UpdateBand(updatedBandData);
+      //   router.push(`/bands`);
       window.location.reload();
     } catch (error) {
       console.error("Failed to created a band");
@@ -109,11 +109,8 @@ export default function CreateBand({
   return (
     <>
       <div className="flex items-center">
-        <CirclePlus
-          className={className}
-          onClick={() => setIsModalOpen(true)}
-        />
-        <span className="mx-3 text-lg">Create new band</span>
+        <CirclePlus onClick={() => setIsModalOpen(true)} />
+        <span className="mx-3 text-lg">Update</span>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
@@ -195,32 +192,6 @@ export default function CreateBand({
                 className="my-7 min-w-full"
               />
             </div>
-            {/* <h2 className="text-center text-2xl">New Show Information (Optional):</h2>
-              <Input
-                name="showName"
-                placeholder="Show Name"
-                value={formData.showName || ""}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <input
-                type="file"
-                onChange={(e) => {
-                  console.log(
-                    "Show image file selected:",
-                    e.target.files ? e.target.files[0] : null,
-                  );
-                  setShowFile(e.target.files ? e.target.files[0] : null);
-                }}
-              />
-              <Input
-                name="showInfo"
-                placeholder="Show Info"
-                value={formData.showInfo || ""}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-            </div> */}
             <Button
               type="button"
               className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"

@@ -4,9 +4,11 @@ import { useSession } from "@/app/(main)/SessionProvider";
 import { NewShow } from "@/app/(main)/shows/actions";
 import { CirclePlus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { FindAllBands, getBand } from "@/app/(main)/bands/actions";
+import { BandData } from "@/lib/types";
 
 interface CreateNewShowProps {
   className?: string;
@@ -16,7 +18,7 @@ interface CreateNewShowProps {
     showInfo: string;
     bandId: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
@@ -32,6 +34,19 @@ export default function CreateShow({
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const [bands, setBands] = useState<BandData[]>([]);
+
+  useEffect(() => {
+    const fetchBands = async () => {
+      try {
+        const bandList = await FindAllBands();
+        setBands(bandList);
+      } catch (error) {
+        console.error("Error fetching bands");
+      }
+    };
+    fetchBands();
+  }, []);
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -67,6 +82,7 @@ export default function CreateShow({
       showName: formData.showName,
       flyerLink: showImageUrl,
       showInfo: formData.showInfo,
+      bandId: formData.bandId
     };
 
     try {
@@ -81,13 +97,75 @@ export default function CreateShow({
     }
   };
 
-  return (
-    <>
-      <CirclePlus className={className} onClick={() => setIsModalOpen(true)} />
+//   return (
+//     <>
+//       <div className="flex items-center">
+//         <CirclePlus
+//           className={className}
+//           onClick={() => setIsModalOpen(true)}
+//         />
+//         <span className="mx-3 text-lg">Create new Show</span>
+//       </div>
+//       {isModalOpen && (
+//         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-opacity-50">
+//           <div className="max-h-fit w-96 rounded-lg bg-white p-6 shadow-lg">
+//             <h2 className="text-center text-2xl">New Show Information:</h2>
+//             <div>
+//               <Input
+//                 name="showName"
+//                 placeholder="Show Name"
+//                 value={formData.showName}
+//                 onChange={handleChange}
+//                 className="my-7 min-w-full"
+//               />
+//               <input
+//                 type="file"
+//                 onChange={(e) => {
+//                   console.log(
+//                     "File selected:",
+//                     e.target.files ? e.target.files[0] : null,
+//                   );
+//                   setFile(e.target.files ? e.target.files[0] : null);
+//                 }}
+//               />
+//               <Input
+//                 name="showInfo"
+//                 placeholder="Show Info"
+//                 value={formData.showInfo}
+//                 onChange={handleChange}
+//                 className="my-7 min-w-full"
+//               />
+//             </div>
+//             <Button
+//               type="button"
+//               className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
+//               onClick={handleSubmit}
+//               disabled={isSubmitting}
+//             >
+//               {isSubmitting ? "Submitting..." : "Submit"}
+//             </Button>
+//             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+//               Cancel
+//             </Button>
+//           </div>
+//         </div>
+//       )}
+//     </>
+//   );
 
+
+return (
+    <>
+      <div className="flex items-center">
+        <CirclePlus
+          className={className}
+          onClick={() => setIsModalOpen(true)}
+        />
+        <span className="mx-3 text-lg">Create new Show</span>
+      </div>
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="w-96 rounded-lg bg-white p-6 shadow-lg">
+        <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-opacity-50">
+          <div className="max-h-fit w-96 rounded-lg bg-white p-6 shadow-lg">
             <h2 className="text-center text-2xl">New Show Information:</h2>
             <div>
               <Input
@@ -114,20 +192,34 @@ export default function CreateShow({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
+               <label htmlFor="bandId" className="block text-sm font-medium text-gray-700">
+                Band
+              </label>
+              <select
+                name="bandId"
+                value={formData.bandId}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              >
+                <option value="">Select a band</option>
+                {bands.map((band) => (
+                  <option key={band.id} value={band.id}>
+                    {band.bandName}
+                  </option>
+                ))}
+              </select>
             </div>
             <Button
               type="button"
-              className="mt-4 rounded bg-blue-500 px-4 py-2 text-white"
+              className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
               onClick={handleSubmit}
               disabled={isSubmitting}
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
-            <div className="mt-4 flex justify-end space-x-2">
-              <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-                Cancel
-              </Button>
-            </div>
+            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
           </div>
         </div>
       )}

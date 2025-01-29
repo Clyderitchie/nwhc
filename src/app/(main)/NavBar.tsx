@@ -1,37 +1,11 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-import { useSession } from "./SessionProvider";
 import UserButton from "@/components/UserButton";
 import SearchField from "@/components/SearchField";
-import CreateBand from "@/components/band/CreateNewBand";
 
 export default function Navbar() {
-  const { user } = useSession() || { user: null };
-  const [formData, setFormData] = useState({
-    bandName: "",
-    bandPic: "",
-    bandBio: "",
-    bandOrigin:  "",
-    bandActive:  "",
-    bandYearsActive:  "",
-    bandCampLink: "",
-    bandAppleLink: "",
-    bandSpotifyLink: "",
-    bandOtherMusicLink: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   return (
-    <header className="sticky top-0 z-20 bg-card shadow-lg px-2 py-2">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5 ">
+    <header className="sticky top-0 z-20 bg-card px-2 py-2 shadow-lg">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5">
         <Link href="/" className="text-2xl font-bold text-primary">
           NWHC
         </Link>
@@ -39,16 +13,7 @@ export default function Navbar() {
           <div className="">
             <SearchField />
           </div>
-          {user ? (
-            <CreateBand
-              formData={formData}
-              handleChange={handleChange}
-              isSubmitting={false}
-              setIsSubmitting={() => {}}
-            />
-          ) : (
-        <h5 className="mx-2">For the community by the community.</h5>
-          )}
+          <h5 className="mx-2">For the community by the community.</h5>
           <div className="mx-1">
             <UserButton className="sm:ms-auto" />
           </div>

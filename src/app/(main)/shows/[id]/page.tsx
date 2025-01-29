@@ -39,6 +39,7 @@ export default async function ShowPage({ params: { id } }: PageProps) {
                   />
                 </div>
               </div>
+              <div className="my-5">{show.band?.bandName}</div>
               <div className="my-5">{show.showInfo}Show Info in this div</div>
             </div>
           ) : (

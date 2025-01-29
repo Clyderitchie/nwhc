@@ -31,16 +31,54 @@ export const createBandSchema = z.object({
   bandAppleLink: z.string().optional(),
   bandSpotifyLink: z.string().optional(),
   bandOtherMusicLink: z.string().optional(),
+  shows: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        showName: z.string(),
+        flyerLink: z.string(),
+        showInfo: z.string(),
+        bandId: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
-console.log(createBandSchema)
-
 export type CreateBandValues = z.infer<typeof createBandSchema>;
+
+export const updateBandSchema = z.object({
+  bandId: z.string(),
+  bandName: z.string().optional(),
+  bandPic: z.string().optional(),
+  bandBio: z.string().optional(),
+  bandOrigin: z.string().optional(),
+  bandActive: z.string().optional(),
+  bandYearsActive: z.string().optional(),
+  bandCampLink: z.string().optional(),
+  bandAppleLink: z.string().optional(),
+  bandSpotifyLink: z.string().optional(),
+  bandOtherMusicLink: z.string().optional(),
+  shows: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        showName: z.string(),
+        flyerLink: z.string(),
+        showInfo: z.string(),
+        bandId: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
+
+export type UpdateBandValue = z.infer<typeof updateBandSchema>;
 
 export const createShowSchema = z.object({
   showName: requiredString,
   flyerLink: z.string(),
   showInfo: requiredString,
+  bandId: z.string().optional(),
+  
 });
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;
