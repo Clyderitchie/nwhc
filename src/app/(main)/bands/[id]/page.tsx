@@ -6,7 +6,7 @@ import BandLinks from "@/components/band/BandLinks";
 import BandDelete from "@/components/band/DeleteBand";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { useState } from "react";
-import BandUpdate from "@/components/band/UpdateBand";
+
 
 interface PageProps {
   params: { id: string };

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import BandUpdate from "./UpdateBand";
+
 
 const ITEMS_PER_PAGE = 9;
 

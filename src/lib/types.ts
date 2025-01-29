@@ -58,7 +58,7 @@ export const bandDataSelect = {
   bandAppleLink: true,
   bandSpotifyLink: true,
   bandOtherMusicLink: true,
-  shows: {
+  show: {
     select: {
       id: true,
       bandId: true,
