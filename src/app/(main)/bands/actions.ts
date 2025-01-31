@@ -55,7 +55,7 @@ export async function NewBand(input: {
       data: bandData,
     });
 
-    console.log("Created new band");
+    // console.log("Created new band");
     return newBand;
   } catch (error) {
     console.error("Error creating new band", error);
@@ -67,7 +67,7 @@ export async function FindAllBands(): Promise<BandData[]> {
     const bands = await prisma.band.findMany({
       select: getBandDataSelect(),
     });
-    console.log("Found all bands", bands);
+    // console.log("Found all bands", bands);
     return bands;
   } catch (error) {
     console.error("Error find all bands", error);

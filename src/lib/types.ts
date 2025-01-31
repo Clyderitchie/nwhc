@@ -76,6 +76,8 @@ export function getShowDataSelect() {
     bandId: true,
     flyerLink: true,
     showInfo: true,
+    showLocation: true,
+    showTime: true,
     band: {
       select: {
         id: true,

@@ -17,6 +17,8 @@ interface CreateNewShowProps {
     flyerLink: string;
     showInfo: string;
     bandId: string;
+    showTime: string;
+    showLocation: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   isSubmitting: boolean;
@@ -42,7 +44,7 @@ export default function CreateShow({
         const bandList = await FindAllBands();
         setBands(bandList);
       } catch (error) {
-        console.error("Error fetching bands");
+        console.error("Error fetching bands for shows");
       }
     };
     fetchBands();
@@ -69,10 +71,10 @@ export default function CreateShow({
           const data = await res.json();
           showImageUrl = data.url;
         } else {
-          throw new Error("Failed to upload image.");
+          throw new Error("Failed to upload show link image.");
         }
       } catch (error) {
-        console.error("Error uploading image: ", error);
+        console.error("Error uploading show image: ", error);
         setIsSubmitting(false);
         return;
       }
@@ -82,7 +84,9 @@ export default function CreateShow({
       showName: formData.showName,
       flyerLink: showImageUrl,
       showInfo: formData.showInfo,
-      bandId: formData.bandId
+      bandId: formData.bandId,
+      showTime: formData.showTime,
+      showLocation: formData.showLocation
     };
 
     try {
@@ -96,63 +100,6 @@ export default function CreateShow({
       setIsModalOpen(false);
     }
   };
-
-//   return (
-//     <>
-//       <div className="flex items-center">
-//         <CirclePlus
-//           className={className}
-//           onClick={() => setIsModalOpen(true)}
-//         />
-//         <span className="mx-3 text-lg">Create new Show</span>
-//       </div>
-//       {isModalOpen && (
-//         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-opacity-50">
-//           <div className="max-h-fit w-96 rounded-lg bg-white p-6 shadow-lg">
-//             <h2 className="text-center text-2xl">New Show Information:</h2>
-//             <div>
-//               <Input
-//                 name="showName"
-//                 placeholder="Show Name"
-//                 value={formData.showName}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <input
-//                 type="file"
-//                 onChange={(e) => {
-//                   console.log(
-//                     "File selected:",
-//                     e.target.files ? e.target.files[0] : null,
-//                   );
-//                   setFile(e.target.files ? e.target.files[0] : null);
-//                 }}
-//               />
-//               <Input
-//                 name="showInfo"
-//                 placeholder="Show Info"
-//                 value={formData.showInfo}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//             </div>
-//             <Button
-//               type="button"
-//               className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
-//               onClick={handleSubmit}
-//               disabled={isSubmitting}
-//             >
-//               {isSubmitting ? "Submitting..." : "Submit"}
-//             </Button>
-//             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-//               Cancel
-//             </Button>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-
 
 return (
     <>
@@ -189,6 +136,20 @@ return (
                 name="showInfo"
                 placeholder="Show Info"
                 value={formData.showInfo}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+               <Input
+                name="showLocation"
+                placeholder="Show Location"
+                value={formData.showLocation}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+               <Input
+                name="showTime"
+                placeholder="Show Time"
+                value={formData.showTime}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />

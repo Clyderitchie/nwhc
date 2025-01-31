@@ -78,7 +78,9 @@ export const createShowSchema = z.object({
   flyerLink: z.string(),
   showInfo: requiredString,
   bandId: z.string().optional(),
-  
+  showLocation: z.string(),
+  showTime: z.string()
+
 });
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;
