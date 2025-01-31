@@ -42,7 +42,7 @@ export default async function BandPage({ params: { id } }: PageProps) {
     notFound();
   }
 
-  console.log("Band from Id and bandPage function: ", band);
+//   console.log("Band from Id and bandPage function: ", band);
 
   return (
     <>

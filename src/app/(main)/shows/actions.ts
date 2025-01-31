@@ -11,19 +11,23 @@ export async function NewShow(input: {
   flyerLink: string;
   showInfo: string;
   bandId?: string;
+  showTime: string;
+  showLocation: string;
 }) {
   const { user } = await validateRequest();
   if (!user) throw Error("Unauthorized");
 
   try {
     const parsedData = createShowSchema.parse(input);
-    const { showName, flyerLink, showInfo, bandId } = parsedData;
+    const { showName, flyerLink, showInfo, bandId, showTime, showLocation } = parsedData;
 
     const showData = {
       showName,
       flyerLink,
       showInfo,
       bandId,
+      showTime,
+      showLocation,
       createdAt: new Date(),
     };
 
@@ -72,7 +76,7 @@ export async function getShow(id: string) {
     where: { id: id },
     select: getShowDataSelect(),
   });
-  console.log("show from actions: ", show)
+  console.log("show from actions: ", show);
   if (!show) notFound();
   return show;
 }
