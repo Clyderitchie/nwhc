@@ -25,13 +25,13 @@ export const createBandSchema = z.object({
   bandPic: z.string().optional(),
   bandBio: requiredString,
   bandOrigin: requiredString,
-  bandActive: requiredString,
+  bandActive: z.boolean(),
   bandYearsActive: requiredString,
   bandCampLink: z.string().optional(),
   bandAppleLink: z.string().optional(),
   bandSpotifyLink: z.string().optional(),
   bandOtherMusicLink: z.string().optional(),
-  shows: z
+  show: z
     .array(
       z.object({
         id: z.string().optional(),
@@ -39,6 +39,19 @@ export const createBandSchema = z.object({
         flyerLink: z.string(),
         showInfo: z.string(),
         bandId: z.string().optional(),
+      }),
+    )
+    .optional(),
+  link: z
+    .array(
+      z.object({
+        id: z.string().optional(),
+        appleMusic: z.string(),
+        spotifyMusic: z.string(),
+        bandCamp: z.string(),
+        twitter: z.string(),
+        instagram: z.string(),
+        shop: z.string(),
       }),
     )
     .optional(),
@@ -79,8 +92,20 @@ export const createShowSchema = z.object({
   showInfo: requiredString,
   bandId: z.string().optional(),
   showLocation: z.string(),
-  showTime: z.string()
-
+  showTime: z.string(),
+  link: z
+  .array(
+    z.object({
+      id: z.string().optional(),
+      appleMusic: z.string(),
+      spotifyMusic: z.string(),
+      bandCamp: z.string(),
+      twitter: z.string(),
+      instagram: z.string(),
+      shop: z.string(),
+    }),
+  )
+  .optional(),
 });
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;

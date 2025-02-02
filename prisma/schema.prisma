@@ -33,15 +33,12 @@ model Band {
   bandName           String
   bandPic            String?
   bandOrigin         String
-  bandActive         String
+  bandActive         Boolean
   bandYearsActive    String
   bandBio            String
-  bandCampLink       String?
-  bandAppleLink      String?
-  bandSpotifyLink    String?
-  bandOtherMusicLink String?
   createdAt          DateTime @default(now())
   show               Show[]
+  link               Link[]
 
   @@map("bands")
 }
@@ -56,6 +53,24 @@ model Show {
   showTime     String
   createdAt    DateTime @default(now())
   band         Band?    @relation(fields: [bandId], references: [id])
+  link         Link[]
 
   @@map("shows")
+}
+
+model Link {
+  id           String  @id @default(cuid())
+  bandId       String?
+  showId       String?
+  appleMusic   String?
+  spotifyMusic String?
+  bandCamp     String?
+  twitter      String?
+  instagram    String?
+  shop         String?
+
+  band Band? @relation(fields: [bandId], references: [id])
+  show Show? @relation(fields: [showId], references: [id])
+
+  @@map("links")
 }

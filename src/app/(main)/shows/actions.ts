@@ -13,13 +13,29 @@ export async function NewShow(input: {
   bandId?: string;
   showTime: string;
   showLocation: string;
+  link?: {
+    appleMusic?: string;
+    spotifyMusic?: string;
+    bandCamp?: string;
+    twitter?: string;
+    instagram?: string;
+    shop?: string;
+  }[];
 }) {
   const { user } = await validateRequest();
   if (!user) throw Error("Unauthorized");
 
   try {
     const parsedData = createShowSchema.parse(input);
-    const { showName, flyerLink, showInfo, bandId, showTime, showLocation } = parsedData;
+    const {
+      showName,
+      flyerLink,
+      showInfo,
+      bandId,
+      showTime,
+      showLocation,
+      link,
+    } = parsedData;
 
     const showData = {
       showName,
@@ -30,6 +46,12 @@ export async function NewShow(input: {
       showLocation,
       createdAt: new Date(),
     };
+
+    if (link && link.length > 0) {
+      showData.link = {
+        create: link,
+      };
+    }
 
     const newShow = await prisma.show.create({
       data: showData,
@@ -74,7 +96,32 @@ export async function DeleteShow(showId: string) {
 export async function getShow(id: string) {
   const show = await prisma.show.findFirst({
     where: { id: id },
-    select: getShowDataSelect(),
+    select: {
+      id: true,
+      showName: true,
+      flyerLink: true,
+      showInfo: true,
+      bandId: true,
+      showTime: true,
+      showLocation: true,
+      link: {
+        select: {
+          id: true,
+          appleMusic: true,
+          spotifyMusic: true,
+          bandCamp: true,
+          twitter: true,
+          instagram: true,
+          shop: true,
+        },
+      },
+      band: {
+        select: {
+          id: true,
+          bandName: true,
+        },
+      },
+    },
   });
   console.log("show from actions: ", show);
   if (!show) notFound();

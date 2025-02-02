@@ -14,35 +14,13 @@ interface PageProps {
 
 export default async function BandPage({ params: { id } }: PageProps) {
   const { user } = useSession() || { user: null };
-  const [formData, setFormData] = useState({
-    bandName: "",
-    bandPic: "",
-    bandBio: "",
-    bandOrigin: "",
-    bandActive: "",
-    bandYearsActive: "",
-    bandCampLink: "",
-    bandAppleLink: "",
-    bandSpotifyLink: "",
-    bandOtherMusicLink: "",
-    showName: "",
-    flyerLink: "",
-    showInfo: "",
-    bandId: "",
-  });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+
   const band = await getBand(id);
   if (!band) {
     notFound();
   }
 
-//   console.log("Band from Id and bandPage function: ", band);
+  console.log("Band from Id and bandPage function: ", band);
 
   return (
     <>
@@ -73,17 +51,12 @@ export default async function BandPage({ params: { id } }: PageProps) {
                   </div>
                 </div>
                 <div className="">
-                  <BandLinks
-                    bandCampLink={band.bandCampLink}
-                    bandAppleLink={band.bandAppleLink}
-                    bandSpotifyLink={band.bandSpotifyLink}
-                    bandOtherMusicLink={band.bandOtherMusicLink}
-                  />
+                <BandLinks links={band.link || []} /> 
                 </div>
                 {user ? <BandDelete bandId={band.id} /> : <span></span>}
               </div>
               <div className="my-5">{band.bandBio}</div>
-              <div>{band.bandOrigin}</div>
+              {/* <div>{band.bandOrigin}</div>
               <div className="my-5">
                 <h1 className="underline text-2xl my-3">Shows</h1>
                 {band.show && band.show.length > 0 ? (
@@ -95,7 +68,7 @@ export default async function BandPage({ params: { id } }: PageProps) {
                 ) : (
                   <p>No shows found</p>
                 )}
-              </div>
+              </div> */}
             </div>
           ) : (
             <p>band not found</p>

@@ -11,12 +11,16 @@ export async function NewBand(input: {
   bandPic: string;
   bandBio: string;
   bandOrigin: string;
-  bandActive: string;
+  bandActive: boolean;
   bandYearsActive: string;
-  bandCampLink: string;
-  bandAppleLink: string;
-  bandSpotifyLink: string;
-  bandOtherMusicLink: string;
+  link: {
+    appleMusic?: string;
+    spotifyMusic?: string;
+    bandCamp?: string;
+    twitter?: string;
+    instagram?: string;
+    shop?: string;
+  }[];
 }) {
   const { user } = await validateRequest();
 
@@ -31,10 +35,7 @@ export async function NewBand(input: {
       bandOrigin,
       bandActive,
       bandYearsActive,
-      bandCampLink,
-      bandAppleLink,
-      bandSpotifyLink,
-      bandOtherMusicLink,
+      link,
     } = parsedData;
 
     const bandData = {
@@ -44,10 +45,7 @@ export async function NewBand(input: {
       bandOrigin,
       bandActive,
       bandYearsActive,
-      bandCampLink,
-      bandAppleLink,
-      bandSpotifyLink,
-      bandOtherMusicLink,
+      link: { create: link },
       createdAt: new Date(),
     };
 
@@ -55,7 +53,7 @@ export async function NewBand(input: {
       data: bandData,
     });
 
-    // console.log("Created new band");
+    console.log("Created new band");
     return newBand;
   } catch (error) {
     console.error("Error creating new band", error);
@@ -103,19 +101,26 @@ export async function FindBandById(id: string) {
         bandBio: true,
         bandOrigin: true,
         bandActive: true,
-        bandYearsActive: true,
-        bandCampLink: true,
-        bandAppleLink: true,
-        bandSpotifyLink: true,
-        bandOtherMusicLink: true,
         show: {
-            select: {
-              id: true,
-              showName: true,
-              flyerLink: true,
-              showInfo: true,
-            },
+          select: {
+            id: true,
+            showName: true,
+            flyerLink: true,
+            showInfo: true,
           },
+        },
+        link: {
+          select: {
+            id: true,
+            bandId: true,
+            showId: true,
+            appleMusic: true,
+            bandCamp: true,
+            twitter: true,
+            instagram: true,
+            shop: true,
+          },
+        },
       },
     });
     return band;
@@ -124,14 +129,49 @@ export async function FindBandById(id: string) {
   }
 }
 
+// export async function getBand(id: string) {
+//   const band = await prisma.band.findFirst({
+//     where: { id: id },
+//     select: getBandDataSelect(),
+//   });
+//   if (!band) notFound();
+//   return band;
+// }
+
 export async function getBand(id: string) {
   const band = await prisma.band.findFirst({
-    where: { id: id },
-    select: getBandDataSelect(),
+    where: { id },
+    select: {
+      id: true,
+      bandName: true,
+      bandPic: true,
+      bandBio: true,
+      bandOrigin: true,
+      bandActive: true,
+      show: {
+        select: {
+          id: true,
+          showName: true,
+          flyerLink: true,
+          showInfo: true,
+        },
+      },
+      link: {
+        select: {
+          id: true,
+          appleMusic: true,
+          spotifyMusic: true,
+          bandCamp: true,
+          twitter: true,
+          instagram: true,
+          shop: true,
+        },
+      },
+    },
   });
-  if (!band) notFound();
   return band;
 }
+
 
 export async function UpdateBand(input: {
   bandId: string;
@@ -146,9 +186,9 @@ export async function UpdateBand(input: {
   bandSpotifyLink: string;
   bandOtherMusicLink: string;
 }) {
-    const { user } = await validateRequest();
+  const { user } = await validateRequest();
 
-    if (!user) throw Error("Unauthorized");
+  if (!user) throw Error("Unauthorized");
 
   try {
     const validateBand = updateBandSchema.parse(input);
