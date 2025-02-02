@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { FindAllBands, getBand } from "@/app/(main)/bands/actions";
 import { BandData } from "@/lib/types";
 
+
 interface CreateNewShowProps {
   className?: string;
   formData: {
@@ -19,8 +20,17 @@ interface CreateNewShowProps {
     bandId: string;
     showTime: string;
     showLocation: string;
+    appleMusic?: string;
+    spotifyMusic?: string;
+    bandCamp?: string;
+    twitter?: string;
+    instagram?: string;
+    shop?: string;
   };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
+  setFormData: (formData: CreateNewShowProps["formData"]) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
@@ -29,6 +39,7 @@ export default function CreateShow({
   className,
   formData,
   handleChange,
+  setFormData,
   isSubmitting,
   setIsSubmitting,
 }: CreateNewShowProps) {
@@ -86,7 +97,17 @@ export default function CreateShow({
       showInfo: formData.showInfo,
       bandId: formData.bandId,
       showTime: formData.showTime,
-      showLocation: formData.showLocation
+      showLocation: formData.showLocation,
+      link: [
+        {
+          appleMusic: formData.appleMusic || "",
+          spotifyMusic: formData.spotifyMusic || "",
+          bandCamp: formData.bandCamp || "",
+          twitter: formData.twitter || "",
+          instagram: formData.instagram || "",
+          shop: formData.shop || "",
+        },
+      ],
     };
 
     try {
@@ -101,7 +122,7 @@ export default function CreateShow({
     }
   };
 
-return (
+  return (
     <>
       <div className="flex items-center">
         <CirclePlus
@@ -111,8 +132,8 @@ return (
         <span className="mx-3 text-lg">Create new Show</span>
       </div>
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-opacity-50">
-          <div className="max-h-fit w-96 rounded-lg bg-white p-6 shadow-lg">
+        <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="max-h-96 min-h-96 w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
             <h2 className="text-center text-2xl">New Show Information:</h2>
             <div>
               <Input
@@ -139,28 +160,32 @@ return (
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-               <Input
+              <Input
                 name="showLocation"
                 placeholder="Show Location"
                 value={formData.showLocation}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-               <Input
+            
+              <Input
                 name="showTime"
                 placeholder="Show Time"
                 value={formData.showTime}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-               <label htmlFor="bandId" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="bandId"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Band
               </label>
               <select
                 name="bandId"
                 value={formData.bandId}
                 onChange={handleChange}
-                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
               >
                 <option value="">Select a band</option>
                 {bands.map((band) => (
@@ -169,6 +194,48 @@ return (
                   </option>
                 ))}
               </select>
+              <Input
+                name="appleMusic"
+                placeholder="Apple Music link"
+                value={formData.appleMusic || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="spotifyMusic"
+                placeholder="Spotify Music link"
+                value={formData.spotifyMusic || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandCamp"
+                placeholder="BandCamp link"
+                value={formData.bandCamp || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="twitter"
+                placeholder="Twitter link"
+                value={formData.twitter || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="instagram"
+                placeholder="Instagram link"
+                value={formData.instagram || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="shop"
+                placeholder="Shop link"
+                value={formData.shop || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
             </div>
             <Button
               type="button"

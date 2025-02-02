@@ -15,17 +15,20 @@ interface CreateNewBandProps {
     bandPic: string;
     bandBio: string;
     bandOrigin: string;
-    bandActive: string;
+    bandActive: boolean;
     bandYearsActive: string;
-    bandCampLink: string;
-    bandAppleLink: string;
-    bandSpotifyLink: string;
-    bandOtherMusicLink: string;
+    appleMusic?: string;
+    spotifyMusic?: string;
+    bandCamp?: string;
+    twitter?: string;
+    instagram?: string;
+    shop?: string;
     showName?: string;
-    showImageUrl?: String;
+    showImageUrl?: string;
     showInfo?: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  setFormData: (formData: CreateNewBandProps["formData"]) => void;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
@@ -34,6 +37,7 @@ export default function CreateBand({
   className,
   formData,
   handleChange,
+  setFormData,
   isSubmitting,
   setIsSubmitting,
 }: CreateNewBandProps) {
@@ -79,11 +83,17 @@ export default function CreateBand({
       bandOrigin: formData.bandOrigin,
       bandActive: formData.bandActive,
       bandYearsActive: formData.bandYearsActive,
-      bandCampLink: formData.bandCampLink,
-      bandAppleLink: formData.bandAppleLink,
-      bandSpotifyLink: formData.bandSpotifyLink,
-      bandOtherMusicLink: formData.bandOtherMusicLink,
-      shows: formData.showName
+      link: [
+        {
+          appleMusic: formData.appleMusic || "",
+          spotifyMusic: formData.spotifyMusic || "",
+          bandCamp: formData.bandCamp || "",
+          twitter: formData.twitter || "",
+          instagram: formData.instagram || "",
+          shop: formData.shop || "",
+        },
+      ],
+      show: formData.showName
         ? [
             {
               showName: formData.showName,
@@ -96,14 +106,20 @@ export default function CreateBand({
 
     try {
       const newBand = await NewBand(bandData);
+      console.log("Creating new band: ", bandData);
       router.push(`/bands`);
       window.location.reload();
     } catch (error) {
-      console.error("Failed to created a band");
+      console.error("Failed to create a band");
     } finally {
       setIsSubmitting(false);
       setIsModalOpen(false);
     }
+  };
+
+  const handleBooleanChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value === "true"; // Convert string to boolean
+    setFormData({ ...formData, bandActive: value });
   };
 
   return (
@@ -152,13 +168,22 @@ export default function CreateBand({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-              <Input
+              <label
+                htmlFor="bandActive"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Band Active
+              </label>
+              <select
                 name="bandActive"
-                placeholder="Band Active"
-                value={formData.bandActive}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
+                value={formData.bandActive ? "true" : "false"} // Convert boolean to string for display
+                onChange={handleBooleanChange}
+                className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+              >
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+              </select>
+
               <Input
                 name="bandYearsActive"
                 placeholder="Band Years Active"
@@ -167,60 +192,48 @@ export default function CreateBand({
                 className="my-7 min-w-full"
               />
               <Input
-                name="bandCampLink"
-                placeholder="Band Camp link"
-                value={formData.bandCampLink}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandAppleLink"
+                name="appleMusic"
                 placeholder="Apple Music link"
-                value={formData.bandAppleLink}
+                value={formData.appleMusic || ""}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
               <Input
-                name="bandSpotifyLink"
-                placeholder="Spotify Link"
-                value={formData.bandSpotifyLink}
+                name="spotifyMusic"
+                placeholder="Spotify Music link"
+                value={formData.spotifyMusic || ""}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
               <Input
-                name="bandOtherMusicLink"
-                placeholder="Other music link"
-                value={formData.bandOtherMusicLink}
+                name="bandCamp"
+                placeholder="BandCamp link"
+                value={formData.bandCamp || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="twitter"
+                placeholder="Twitter link"
+                value={formData.twitter || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="instagram"
+                placeholder="Instagram link"
+                value={formData.instagram || ""}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="shop"
+                placeholder="Shop link"
+                value={formData.shop || ""}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
             </div>
-            {/* <h2 className="text-center text-2xl">New Show Information (Optional):</h2>
-              <Input
-                name="showName"
-                placeholder="Show Name"
-                value={formData.showName || ""}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <input
-                type="file"
-                onChange={(e) => {
-                  console.log(
-                    "Show image file selected:",
-                    e.target.files ? e.target.files[0] : null,
-                  );
-                  setShowFile(e.target.files ? e.target.files[0] : null);
-                }}
-              />
-              <Input
-                name="showInfo"
-                placeholder="Show Info"
-                value={formData.showInfo || ""}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-            </div> */}
             <Button
               type="button"
               className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"

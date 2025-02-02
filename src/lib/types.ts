@@ -21,15 +21,10 @@ export function getBandDataSelect() {
   return {
     id: true,
     bandName: true,
-    bandPic: true,
     bandBio: true,
+    bandPic: true,
     bandOrigin: true,
-    bandActive: true,
     bandYearsActive: true,
-    bandCampLink: true,
-    bandAppleLink: true,
-    bandSpotifyLink: true,
-    bandOtherMusicLink: true,
     show: {
       select: {
         id: true,
@@ -37,6 +32,18 @@ export function getBandDataSelect() {
         showName: true,
         showInfo: true,
         flyerLink: true,
+      },
+    },
+    link: {
+      select: {
+        id: true,
+        bandId: true,
+        showId: true,
+        appleMusic: true,
+        bandCamp: true,
+        twitter: true,
+        instagram: true,
+        shop: true,
       },
     },
   } satisfies Prisma.BandSelect;
@@ -49,15 +56,9 @@ export type BandData = Prisma.BandGetPayload<{
 export const bandDataSelect = {
   id: true,
   bandName: true,
-  bandPic: true,
   bandBio: true,
   bandOrigin: true,
-  bandActive: true,
   bandYearsActive: true,
-  bandCampLink: true,
-  bandAppleLink: true,
-  bandSpotifyLink: true,
-  bandOtherMusicLink: true,
   show: {
     select: {
       id: true,
@@ -65,6 +66,18 @@ export const bandDataSelect = {
       showName: true,
       showInfo: true,
       flyerLink: true,
+    },
+  },
+  link: {
+    select: {
+      id: true,
+      bandId: true,
+      showId: true,
+      appleMusic: true,
+      bandCamp: true,
+      twitter: true,
+      instagram: true,
+      shop: true,
     },
   },
 } satisfies Prisma.BandSelect;
@@ -87,10 +100,30 @@ export function getShowDataSelect() {
         bandOrigin: true,
         bandActive: true,
         bandYearsActive: true,
-        bandCampLink: true,
-        bandAppleLink: true,
-        bandSpotifyLink: true,
-        bandOtherMusicLink: true,
+        link: {
+          select: {
+            id: true,
+            bandId: true,
+            showId: true,
+            appleMusic: true,
+            bandCamp: true,
+            twitter: true,
+            instagram: true,
+            shop: true,
+          },
+        },
+      },
+    },
+    link: {
+      select: {
+        id: true,
+        bandId: true,
+        showId: true,
+        appleMusic: true,
+        bandCamp: true,
+        twitter: true,
+        instagram: true,
+        shop: true,
       },
     },
   } satisfies Prisma.ShowSelect;
