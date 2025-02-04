@@ -109,3 +109,23 @@ export const createShowSchema = z.object({
 });
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;
+
+export const createInterviewSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+  link: z
+  .array(
+    z.object({
+      id: z.string().optional(),
+      appleMusic: z.string(),
+      spotifyMusic: z.string(),
+      bandCamp: z.string(),
+      twitter: z.string(),
+      instagram: z.string(),
+      shop: z.string(),
+    }),
+  )
+  .optional(),
+})
+
+export type CreateInterview = z.infer<typeof createInterviewSchema>;

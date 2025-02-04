@@ -5,7 +5,6 @@
 // import { useSession } from "../SessionProvider";
 // import { useState } from "react";
 
-
 // export default function AdminPage() {
 //   const { user } = useSession();
 //   const [formData, setFormData] = useState({
@@ -61,13 +60,13 @@
 //   );
 // }
 
-
 "use client";
 
 import CreateBand from "@/components/band/CreateNewBand";
 import CreateShow from "@/components/show/CreateShow";
 import { useSession } from "../SessionProvider";
 import { useState } from "react";
+import CreateInterview from "@/components/interview/createInterview";
 
 export default function AdminPage() {
   const { user } = useSession();
@@ -87,6 +86,8 @@ export default function AdminPage() {
     showName: "",
     showImageUrl: "",
     showInfo: "",
+    title: "",
+    content: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -109,6 +110,15 @@ export default function AdminPage() {
         </div>
         <div className="my-5">
           <CreateShow
+            formData={formData}
+            setFormData={setFormData}
+            handleChange={handleChange}
+            isSubmitting={isSubmitting}
+            setIsSubmitting={setIsSubmitting}
+          />
+        </div>
+        <div className="my-5">
+          <CreateInterview
             formData={formData}
             setFormData={setFormData}
             handleChange={handleChange}

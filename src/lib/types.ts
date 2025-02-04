@@ -39,6 +39,7 @@ export function getBandDataSelect() {
         id: true,
         bandId: true,
         showId: true,
+        interviewId: true,
         appleMusic: true,
         bandCamp: true,
         twitter: true,
@@ -73,6 +74,7 @@ export const bandDataSelect = {
       id: true,
       bandId: true,
       showId: true,
+      interviewId: true,
       appleMusic: true,
       bandCamp: true,
       twitter: true,
@@ -105,6 +107,7 @@ export function getShowDataSelect() {
             id: true,
             bandId: true,
             showId: true,
+            interviewId: true,
             appleMusic: true,
             bandCamp: true,
             twitter: true,
@@ -119,6 +122,7 @@ export function getShowDataSelect() {
         id: true,
         bandId: true,
         showId: true,
+        interviewId: true,
         appleMusic: true,
         bandCamp: true,
         twitter: true,
@@ -131,4 +135,29 @@ export function getShowDataSelect() {
 
 export type ShowData = Prisma.ShowGetPayload<{
   select: ReturnType<typeof getShowDataSelect>;
+}>;
+
+export function getInterviewDataSelect() {
+  return {
+    id: true,
+    title: true,
+    content: true,
+    link: {
+      select: {
+        id: true,
+        bandId: true,
+        showId: true,
+        interviewId: true,
+        appleMusic: true,
+        bandCamp: true,
+        twitter: true,
+        instagram: true,
+        shop: true,
+      },
+    },
+  } satisfies Prisma.InterviewSelect;
+}
+
+export type InterviewData = Prisma.InterviewGetPayload<{
+  select: ReturnType<typeof getInterviewDataSelect>;
 }>;

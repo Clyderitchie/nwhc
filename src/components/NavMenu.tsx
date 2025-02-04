@@ -20,8 +20,8 @@ export default function NavMenu({ className }: NavMenuProps) {
           <Link href="/bands">
             <h3 className="py-5">Bands</h3>
           </Link>
-          <Link href="/media">
-            <h3 className="py-5">Media</h3>
+          <Link href="/interviews">
+            <h3 className="py-5">Interviews</h3>
           </Link>
           <Link href="/projects">
             <h3 className="py-5">Other NWHC Projects</h3>
