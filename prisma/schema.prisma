@@ -29,16 +29,16 @@ model Session {
 }
 
 model Band {
-  id                 String   @id @default(cuid())
-  bandName           String
-  bandPic            String?
-  bandOrigin         String
-  bandActive         Boolean
-  bandYearsActive    String
-  bandBio            String
-  createdAt          DateTime @default(now())
-  show               Show[]
-  link               Link[]
+  id              String   @id @default(cuid())
+  bandName        String
+  bandPic         String?
+  bandOrigin      String
+  bandActive      Boolean
+  bandYearsActive String
+  bandBio         String
+  createdAt       DateTime @default(now())
+  show            Show[]
+  link            Link[]
 
   @@map("bands")
 }
@@ -58,10 +58,21 @@ model Show {
   @@map("shows")
 }
 
+model Interview {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  link      Link[]
+
+  @@map("interview")
+}
+
 model Link {
   id           String  @id @default(cuid())
   bandId       String?
   showId       String?
+  interviewId  String?
   appleMusic   String?
   spotifyMusic String?
   bandCamp     String?
@@ -69,8 +80,9 @@ model Link {
   instagram    String?
   shop         String?
 
-  band Band? @relation(fields: [bandId], references: [id])
-  show Show? @relation(fields: [showId], references: [id])
+  band      Band?      @relation(fields: [bandId], references: [id])
+  show      Show?      @relation(fields: [showId], references: [id])
+  interview Interview? @relation(fields: [interviewId], references: [id])
 
   @@map("links")
 }
