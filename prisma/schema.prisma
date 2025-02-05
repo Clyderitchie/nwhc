@@ -61,6 +61,10 @@ model Show {
 model Interview {
   id        String   @id @default(cuid())
   title     String
+  author    String
+  questions String
+  answers   String
+  pics      String?
   content   String
   createdAt DateTime @default(now())
   link      Link[]

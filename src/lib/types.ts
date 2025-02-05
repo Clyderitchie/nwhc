@@ -141,6 +141,10 @@ export function getInterviewDataSelect() {
   return {
     id: true,
     title: true,
+    author: true,
+    questions: true,
+    answers: true,
+    pics: true,
     content: true,
     link: {
       select: {
