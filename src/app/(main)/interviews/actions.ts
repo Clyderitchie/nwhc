@@ -27,7 +27,8 @@ export async function NewInterview(input: {
 
   try {
     const parsedData = createInterviewSchema.parse(input);
-    const { title, content, link, author, questions, answers, pics } = parsedData;
+    const { title, content, link, author, questions, answers, pics } =
+      parsedData;
 
     const interviewData = {
       title,
@@ -61,4 +62,31 @@ export async function FindAllInterviews(): Promise<InterviewData[]> {
     console.error("Error finding all interviews: ", error);
     return [];
   }
+}
+
+export async function getInterview(id: string) {
+  const interview = await prisma.interview.findFirst({
+    where: { id },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      author: true,
+      questions: true,
+      answers: true,
+      pics: true,
+      link: {
+        select: {
+          id: true,
+          appleMusic: true,
+          spotifyMusic: true,
+          bandCamp: true,
+          twitter: true,
+          instagram: true,
+          shop: true,
+        },
+      },
+    },
+  });
+  return interview;
 }
