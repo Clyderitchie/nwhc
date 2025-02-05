@@ -1,132 +1,142 @@
-// "use client";
-
-// import CreateBand from "@/components/band/CreateNewBand";
-// import CreateShow from "@/components/show/CreateShow";
-// import { useSession } from "../SessionProvider";
-// import { useState } from "react";
-
-// export default function AdminPage() {
-//   const { user } = useSession();
-//   const [formData, setFormData] = useState({
-//     bandName: "",
-//     bandPic: "",
-//     bandBio: "",
-//     bandOrigin: "",
-//     bandActive: false,
-//     bandYearsActive: "",
-//     appleMusic: "",
-//     spotifyMusic: "",
-//     bandCamp: "",
-//     twitter: "",
-//     instagram: "",
-//     shop: "",
-//     showName: "",
-//     showImageUrl: "",
-//     showInfo: "",
-//   });
-
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-// const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-//   return (
-//     <>
-//       <div className="min-w-full max-w-full flex-col">
-//         <div className="my-5">
-//           <CreateBand
-//             formData={formData}
-//             setFormData={setFormData}
-//             handleChange={handleChange}
-//             isSubmitting={false}
-//             setIsSubmitting={() => {}}
-//           />
-//         </div>
-//         <div className="my-5">
-//           <CreateShow
-//             formData={formData}
-//             handleChange={handleChange}
-//             isSubmitting={false}
-//             setIsSubmitting={() => {}}
-//           />
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
 "use client";
 
-import CreateBand from "@/components/band/CreateNewBand";
-import CreateShow from "@/components/show/CreateShow";
-import { useSession } from "../SessionProvider";
-import { useState } from "react";
-import CreateInterview from "@/components/interview/createInterview";
+  import CreateBand from "@/components/band/CreateNewBand";
+  import CreateShow from "@/components/show/CreateShow";
+  import { useSession } from "../SessionProvider";
+  import { useState } from "react";
+  import CreateInterview from "@/components/interview/createInterview";
 
-export default function AdminPage() {
-  const { user } = useSession();
-  const [formData, setFormData] = useState({
-    bandName: "",
-    bandPic: "",
-    bandBio: "",
-    bandOrigin: "",
-    bandActive: false,
-    bandYearsActive: "",
-    appleMusic: "",
-    spotifyMusic: "",
-    bandCamp: "",
-    twitter: "",
-    instagram: "",
-    shop: "",
-    showName: "",
-    showImageUrl: "",
-    showInfo: "",
-    title: "",
-    content: "",
-  });
+  export default function AdminPage() {
+    const { user } = useSession();
+    const [bandFormData, setBandFormData] = useState<{
+      bandName: string;
+      bandPic: string;
+      bandBio: string;
+      bandOrigin: string;
+      bandActive: boolean;
+      bandYearsActive: string;
+      appleMusic?: string;
+      spotifyMusic?: string;
+      bandCamp?: string;
+      twitter?: string;
+      instagram?: string;
+      shop?: string;
+    }>({
+      bandName: "",
+      bandPic: "",
+      bandBio: "",
+      bandOrigin: "",
+      bandActive: false,
+      bandYearsActive: "",
+      appleMusic: "",
+      spotifyMusic: "",
+      bandCamp: "",
+      twitter: "",
+      instagram: "",
+      shop: "",
+    });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+    const [interviewFormdata, setInterviewFormData] = useState<{
+      title: string;
+      content: string;
+      appleMusic?: string;
+      spotifyMusic?: string;
+      bandCamp?: string;
+      twitter?: string;
+      instagram?: string;
+      shop?: string;
+    }>({
+      title: "",
+      content: "",
+      appleMusic: "",
+      spotifyMusic: "",
+      bandCamp: "",
+      twitter: "",
+      instagram: "",
+      shop: "",
+    });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    const [showFormData, setShowFormData] = useState<{
+      showName: string;
+      flyerLink: string;
+      showInfo: string;
+      bandId: string;
+      showTime: string;
+      showLocation: string;
+      appleMusic?: string;
+      spotifyMusic?: string;
+      bandCamp?: string;
+      twitter?: string;
+      instagram?: string;
+      shop?: string;
+    }>({
+      showName: "",
+      flyerLink: "",
+      showInfo: "",
+      bandId: "",
+      showTime: "",
+      showLocation: "",
+      appleMusic: "",
+      spotifyMusic: "",
+      bandCamp: "",
+      twitter: "",
+      instagram: "",
+      shop: "",
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-  return (
-    <>
-      <div className="min-w-full max-w-full flex-col">
-        <div className="my-5">
-          <CreateBand
-            formData={formData}
-            setFormData={setFormData}
-            handleChange={handleChange}
-            isSubmitting={isSubmitting}
-            setIsSubmitting={setIsSubmitting}
-          />
+    const handleBandChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    ) => {
+      setBandFormData({ ...bandFormData, [e.target.name]: e.target.value });
+    };
+
+    const handleShowChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    ) => {
+      setShowFormData({ ...showFormData, [e.target.name]: e.target.value });
+    };
+
+    const handleInterviewChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    ) => {
+      setInterviewFormData({
+        ...interviewFormdata,
+        [e.target.name]: e.target.value,
+      });
+    };
+
+    return (
+      <>
+        <div className="min-w-full max-w-full flex-col">
+          <div className="my-5">
+            <CreateBand
+              formData={bandFormData}
+              setFormData={setBandFormData}
+              handleChange={handleBandChange}
+              isSubmitting={isSubmitting}
+              setIsSubmitting={setIsSubmitting}
+            />
+          </div>
+          <div className="my-5">
+            <CreateShow
+              formData={showFormData}
+              setFormData={setShowFormData}
+              handleChange={handleShowChange}
+              isSubmitting={isSubmitting}
+              setIsSubmitting={setIsSubmitting}
+            />
+          </div>
+          <div className="my-5">
+            <CreateInterview
+              formData={interviewFormdata}
+              setFormData={setInterviewFormData}
+              handleChange={handleInterviewChange}
+              isSubmitting={isSubmitting}
+              setIsSubmitting={setIsSubmitting}
+            />
+          </div>
         </div>
-        <div className="my-5">
-          <CreateShow
-            formData={formData}
-            setFormData={setFormData}
-            handleChange={handleChange}
-            isSubmitting={isSubmitting}
-            setIsSubmitting={setIsSubmitting}
-          />
-        </div>
-        <div className="my-5">
-          <CreateInterview
-            formData={formData}
-            setFormData={setFormData}
-            handleChange={handleChange}
-            isSubmitting={isSubmitting}
-            setIsSubmitting={setIsSubmitting}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
+      </>
+    );
+  }

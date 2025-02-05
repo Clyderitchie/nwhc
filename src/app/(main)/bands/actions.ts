@@ -173,42 +173,38 @@ export async function getBand(id: string) {
 }
 
 
-export async function UpdateBand(input: {
-  bandId: string;
-  bandName: string;
-  bandPic: string;
-  bandBio: string;
-  bandOrigin: string;
-  bandActive: string;
-  bandYearsActive: string;
-  bandCampLink: string;
-  bandAppleLink: string;
-  bandSpotifyLink: string;
-  bandOtherMusicLink: string;
-}) {
-  const { user } = await validateRequest();
+// export async function UpdateBand(input: {
+//   bandId: string;
+//   bandName: string;
+//   bandPic: string;
+//   bandBio: string;
+//   bandOrigin: string;
+//   bandActive: boolean;
+//   bandYearsActive: string;
+//   bandCampLink: string;
+//   bandAppleLink: string;
+//   bandSpotifyLink: string;
+//   bandOtherMusicLink: string;
+// }) {
+//   const { user } = await validateRequest();
 
-  if (!user) throw Error("Unauthorized");
+//   if (!user) throw Error("Unauthorized");
 
-  try {
-    const validateBand = updateBandSchema.parse(input);
+//   try {
+//     const validateBand = updateBandSchema.parse(input);
 
-    const updateBand = await prisma.band.update({
-      where: { id: validateBand.bandId },
-      data: {
-        bandName: validateBand.bandName,
-        bandPic: validateBand.bandPic,
-        bandBio: validateBand.bandBio,
-        bandOrigin: validateBand.bandOrigin,
-        bandActive: validateBand.bandActive,
-        bandYearsActive: validateBand.bandYearsActive,
-        bandCampLink: validateBand.bandCampLink,
-        bandAppleLink: validateBand.bandAppleLink,
-        bandSpotifyLink: validateBand.bandSpotifyLink,
-        bandOtherMusicLink: validateBand.bandOtherMusicLink,
-      },
-    });
-  } catch (error) {
-    console.error("Error updating band", error);
-  }
-}
+//     const updateBand = await prisma.band.update({
+//       where: { id: validateBand.bandId },
+//       data: {
+//         bandName: validateBand.bandName,
+//         bandPic: validateBand.bandPic,
+//         bandBio: validateBand.bandBio,
+//         bandOrigin: validateBand.bandOrigin,
+//         bandActive: validateBand.bandActive === 'true',
+//         bandYearsActive: validateBand.bandYearsActive,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error updating band", error);
+//   }
+// }
