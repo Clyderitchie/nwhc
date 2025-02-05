@@ -30,7 +30,7 @@ export default function InterviewList() {
   );
 
   const sortedInterviews = filteredInterviews.sort((a, b) =>
-    a.title.localeCOmpare(b.title),
+    a.title.localeCompare(b.title),
   );
 
   const totalPages = Math.ceil(sortedInterviews.length / ITEMS_PER_PAGE);

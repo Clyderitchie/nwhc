@@ -44,14 +44,9 @@ export async function NewShow(input: {
       bandId,
       showTime,
       showLocation,
+      link: { create: link },
       createdAt: new Date(),
     };
-
-    if (link && link.length > 0) {
-      showData.link = {
-        create: link,
-      };
-    }
 
     const newShow = await prisma.show.create({
       data: showData,

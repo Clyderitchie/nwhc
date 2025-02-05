@@ -1,6 +1,6 @@
 "use client";
 import { notFound } from "next/navigation";
-import { getBand, UpdateBand } from "../actions";
+import { getBand } from "../actions";
 import Image from "next/image";
 import BandLinks from "@/components/band/BandLinks";
 import BandDelete from "@/components/band/DeleteBand";
@@ -56,19 +56,7 @@ export default async function BandPage({ params: { id } }: PageProps) {
                 {user ? <BandDelete bandId={band.id} /> : <span></span>}
               </div>
               <div className="my-5">{band.bandBio}</div>
-              {/* <div>{band.bandOrigin}</div>
-              <div className="my-5">
-                <h1 className="underline text-2xl my-3">Shows</h1>
-                {band.show && band.show.length > 0 ? (
-                  band.show.map((show) => (
-                    <div key={show.id}>
-                      <h2 className="text-xl font-semibold">{show.showName}</h2>
-                    </div>
-                  ))
-                ) : (
-                  <p>No shows found</p>
-                )}
-              </div> */}
+             
             </div>
           ) : (
             <p>band not found</p>
