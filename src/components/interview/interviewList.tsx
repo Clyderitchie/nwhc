@@ -2,6 +2,7 @@
 
 import { FindAllInterviews } from "@/app/(main)/interviews/actions";
 import { InterviewData } from "@/lib/types";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -52,10 +53,12 @@ export default function InterviewList() {
             className="max-h-60 min-h-60 w-full rounded-md border bg-card shadow-xl md:w-1/4"
             key={interview.id}
           >
-            <div className="flex-col items-baseline p-5">
-              <h1 className="my-1 text-left text-2xl">{interview.title}</h1>
-              <h2 className="my-2">Origin: {interview.content}</h2>
-            </div>
+            <Link href={`/interviews/${interview.id}`}>
+              <div className="flex-col items-baseline p-5">
+                <h1 className="my-1 text-left text-2xl">{interview.title}</h1>
+                <h2 className="my-2">Origin: {interview.content}</h2>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
