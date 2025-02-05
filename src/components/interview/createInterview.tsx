@@ -13,6 +13,10 @@ interface CreateNewInterviewProps {
   formData: {
     title: string;
     content: string;
+    author: string;
+    questions: string;
+    answers: string;
+    pics: string;
     appleMusic?: string;
     spotifyMusic?: string;
     bandCamp?: string;
@@ -44,6 +48,10 @@ export default function CreateInterview({
     const interviewData = {
       title: formData.title,
       content: formData.content,
+      author: formData.author,
+      questions: formData.questions,
+      answers: formData.answers,
+      pics: formData.pics,
       link: [
         {
           appleMusic: formData.appleMusic || "",
@@ -89,10 +97,38 @@ export default function CreateInterview({
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
-                <Input
+              <Input
                 name="content"
                 placeholder="Content"
                 value={formData.content}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="author"
+                placeholder="Author"
+                value={formData.author}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="questions"
+                placeholder="Questions"
+                value={formData.questions}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="answers"
+                placeholder="Answers"
+                value={formData.answers}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+               <Input
+                name="pics"
+                placeholder="Pics"
+                value={formData.pics}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />

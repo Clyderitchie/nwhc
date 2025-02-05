@@ -113,6 +113,10 @@ export type CreateShowValues = z.infer<typeof createShowSchema>;
 export const createInterviewSchema = z.object({
   title: z.string(),
   content: z.string(),
+  author: z.string(),
+  questions: z.string(),
+  answers: z.string(),
+  pics: z.string().optional(),
   link: z
   .array(
     z.object({

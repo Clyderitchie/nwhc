@@ -39,6 +39,10 @@
     const [interviewFormdata, setInterviewFormData] = useState<{
       title: string;
       content: string;
+      author: string;
+      questions: string;
+      answers: string;
+      pics: string;
       appleMusic?: string;
       spotifyMusic?: string;
       bandCamp?: string;
@@ -48,6 +52,10 @@
     }>({
       title: "",
       content: "",
+      author: "",
+      questions: "",
+      answers: "",
+      pics: "",
       appleMusic: "",
       spotifyMusic: "",
       bandCamp: "",
