@@ -1,10 +1,9 @@
 "use server";
-// TODO: Find All Bands needs to be refactored
+
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { BandData, getBandDataSelect } from "@/lib/types";
-import { createBandSchema, updateBandSchema } from "@/lib/validations";
-import { notFound } from "next/navigation";
+import { createBandSchema } from "@/lib/validations";
 
 export async function NewBand(input: {
   bandName: string;
@@ -65,7 +64,6 @@ export async function FindAllBands(): Promise<BandData[]> {
     const bands = await prisma.band.findMany({
       select: getBandDataSelect(),
     });
-    // console.log("Found all bands", bands);
     return bands;
   } catch (error) {
     console.error("Error find all bands", error);
@@ -129,15 +127,6 @@ export async function FindBandById(id: string) {
   }
 }
 
-// export async function getBand(id: string) {
-//   const band = await prisma.band.findFirst({
-//     where: { id: id },
-//     select: getBandDataSelect(),
-//   });
-//   if (!band) notFound();
-//   return band;
-// }
-
 export async function getBand(id: string) {
   const band = await prisma.band.findFirst({
     where: { id },
@@ -148,6 +137,7 @@ export async function getBand(id: string) {
       bandBio: true,
       bandOrigin: true,
       bandActive: true,
+      bandYearsActive: true,
       show: {
         select: {
           id: true,
@@ -171,40 +161,3 @@ export async function getBand(id: string) {
   });
   return band;
 }
-
-
-// export async function UpdateBand(input: {
-//   bandId: string;
-//   bandName: string;
-//   bandPic: string;
-//   bandBio: string;
-//   bandOrigin: string;
-//   bandActive: boolean;
-//   bandYearsActive: string;
-//   bandCampLink: string;
-//   bandAppleLink: string;
-//   bandSpotifyLink: string;
-//   bandOtherMusicLink: string;
-// }) {
-//   const { user } = await validateRequest();
-
-//   if (!user) throw Error("Unauthorized");
-
-//   try {
-//     const validateBand = updateBandSchema.parse(input);
-
-//     const updateBand = await prisma.band.update({
-//       where: { id: validateBand.bandId },
-//       data: {
-//         bandName: validateBand.bandName,
-//         bandPic: validateBand.bandPic,
-//         bandBio: validateBand.bandBio,
-//         bandOrigin: validateBand.bandOrigin,
-//         bandActive: validateBand.bandActive === 'true',
-//         bandYearsActive: validateBand.bandYearsActive,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error updating band", error);
-//   }
-// }

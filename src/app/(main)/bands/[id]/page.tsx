@@ -7,7 +7,6 @@ import BandDelete from "@/components/band/DeleteBand";
 import { useSession } from "@/app/(main)/SessionProvider";
 import { useState } from "react";
 
-
 interface PageProps {
   params: { id: string };
 }
@@ -24,15 +23,20 @@ export default async function BandPage({ params: { id } }: PageProps) {
 
   return (
     <>
-      <div className="flex min-h-screen w-full">
+      <div className="flex max-h-screen min-h-screen w-full">
         <div className="min-w-full">
           {band ? (
             <div className="min-h-screen flex-col">
               <div className="my-5 mt-2 flex min-h-fit items-baseline justify-between px-2">
                 <div>
-                  <h1 className="mb-5 text-3xl font-bold underline">
-                    {band.bandName}
-                  </h1>
+                  <div className="">
+                    <h1 className="mb-5 text-3xl font-bold underline">
+                      {band.bandName}
+                    </h1>
+                    <h2 className="font-bold">{band.bandBio}</h2>
+                    <h3 className="my-4">From: {band.bandOrigin}</h3>
+                    <h4>Active years: {band.bandYearsActive}</h4>
+                  </div>
                   <div className="my-5 rounded-sm">
                     {band.bandPic && (
                       <Image
@@ -51,12 +55,12 @@ export default async function BandPage({ params: { id } }: PageProps) {
                   </div>
                 </div>
                 <div className="">
-                <BandLinks links={band.link || []} /> 
+                  <BandLinks links={band.link || []} />
                 </div>
+                <div></div>
                 {user ? <BandDelete bandId={band.id} /> : <span></span>}
               </div>
               <div className="my-5">{band.bandBio}</div>
-             
             </div>
           ) : (
             <p>band not found</p>
@@ -66,5 +70,3 @@ export default async function BandPage({ params: { id } }: PageProps) {
     </>
   );
 }
-
-

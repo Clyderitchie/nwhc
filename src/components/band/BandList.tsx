@@ -6,6 +6,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { BanIcon } from "lucide-react";
+import BandLinks from "./BandLinks";
+import BandIno from "./BandInfo";
+import BandInfo from "./BandInfo";
 
 
 const ITEMS_PER_PAGE = 9;
@@ -13,6 +17,7 @@ const ITEMS_PER_PAGE = 9;
 export default function BandList() {
   const [bands, setBands] = useState<BandData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
@@ -47,15 +52,19 @@ export default function BandList() {
     currentPage * ITEMS_PER_PAGE,
   );
 
+  const handleClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {displayedBands.map((band) => (
           <div
-            className="max-h-60 min-h-60 w-full rounded-md border bg-card shadow-xl md:w-1/4"
+            className="max-h-72 min-h-72 w-full rounded-md border bg-card shadow-xl md:w-1/4"
             key={band.id}
           >
-            <Link className="" href={`/bands/${band.id}`}>
+            {/* <Link className="" href={`/bands/${band.id}`}> */}
               <div className="flex-col items-baseline p-5">
                 <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
                 <Image
@@ -66,9 +75,11 @@ export default function BandList() {
                   height={75}
                 />
                 <h2 className="my-2">Origin: {band.bandOrigin}</h2>
-                <h3 className="">Years Active: {band.bandYearsActive}</h3>
+                <h3 className="my-2">Years Active: {band.bandYearsActive}</h3>
+                <h4 className="my-2"><BandLinks links={band.link || []}/> <BandInfo bandName={band.bandName} bandBio={band.bandBio} bandPic={band.bandPic} bandOrigin={band.bandOrigin} bandActive={false} bandYearsActive={band.bandYearsActive} link={[]}/></h4>
+                <h5></h5>
               </div>
-            </Link>
+            {/* </Link> */}
 
           </div>
         ))}
