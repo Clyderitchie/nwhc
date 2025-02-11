@@ -5,20 +5,18 @@ import { Button } from "../ui/button"; // Adjust the import path as necessary
 import Link from "next/link";
 
 interface BandLinkProps {
-    links: {
-        id: string;
-        appleMusic: string | null;
-        spotifyMusic: string | null;
-        bandCamp: string | null;
-        twitter: string | null;
-        instagram: string | null;
-        shop: string | null;
-      }[];
+  links: {
+    id: string;
+    appleMusic: string | null;
+    spotifyMusic: string | null;
+    bandCamp: string | null;
+    twitter: string | null;
+    instagram: string | null;
+    shop: string | null;
+  }[];
 }
 
-export default function BandLinks({
- links = []
-}: BandLinkProps) {
+export default function BandLinks({ links = [] }: BandLinkProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleMusicIconClick = () => {
@@ -36,9 +34,9 @@ export default function BandLinks({
             <h2 className="text-center text-2xl">Band Links</h2>
             <div className="my-4">
               {links.map((link) => (
-                <div key={link.id} className="my-2">
+                <div key={link.id} className="my-2 p-5">
                   {link.appleMusic && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.appleMusic ?? "#"}
                         target="_blank"
@@ -49,7 +47,7 @@ export default function BandLinks({
                     </div>
                   )}
                   {link.spotifyMusic && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.spotifyMusic ?? "#"}
                         target="_blank"
@@ -60,7 +58,7 @@ export default function BandLinks({
                     </div>
                   )}
                   {link.bandCamp && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.bandCamp ?? "#"}
                         target="_blank"
@@ -71,7 +69,7 @@ export default function BandLinks({
                     </div>
                   )}
                   {link.instagram && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.instagram ?? "#"}
                         target="_blank"
@@ -82,7 +80,7 @@ export default function BandLinks({
                     </div>
                   )}
                   {link.twitter && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.twitter ?? "#"}
                         target="_blank"
@@ -93,7 +91,7 @@ export default function BandLinks({
                     </div>
                   )}
                   {link.shop && (
-                    <div>
+                    <div className="my-2 rounded-lg bg-card text-center shadow-lg">
                       <Link
                         href={link.shop ?? "#"}
                         target="_blank"
