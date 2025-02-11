@@ -3,32 +3,20 @@
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import BandLinks from "./BandLinks";
 
 interface BandInfoProps {
   bandName: string;
-  bandPic: string;
   bandBio: string;
   bandOrigin: string;
-  bandActive: boolean;
   bandYearsActive: string;
-  link: {
-    appleMusic?: string;
-    spotifyMusic?: string;
-    bandCamp?: string;
-    twitter?: string;
-    instagram?: string;
-    shop?: string;
-  }[];
 }
 
 export default function BandIno({
   bandName,
-  bandPic,
   bandBio,
   bandOrigin,
-  bandActive,
   bandYearsActive,
-  link = [],
 }: BandInfoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -46,9 +34,9 @@ export default function BandIno({
           <div className="w-96 flex-col rounded-lg bg-white p-6 shadow-lg">
           <h1 className="font-bold text-2xl text-center">{bandName}</h1>
             <div className="my-4 flex-col p-2">
-              <p>{bandBio}</p>
-              <p>{bandYearsActive}</p>
-              <p>{bandOrigin}</p>
+              <p>Bio: {bandBio}</p>
+              <p>Years Active: {bandYearsActive}</p>
+              <p>From: {bandOrigin}</p>
             </div>
             <Button onClick={() => setIsModalOpen(false)}>Close</Button>
           </div>
