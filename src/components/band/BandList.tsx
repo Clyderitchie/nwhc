@@ -11,7 +11,6 @@ import BandLinks from "./BandLinks";
 import BandIno from "./BandInfo";
 import BandInfo from "./BandInfo";
 
-
 const ITEMS_PER_PAGE = 9;
 
 export default function BandList() {
@@ -61,26 +60,32 @@ export default function BandList() {
       <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {displayedBands.map((band) => (
           <div
-            className="max-h-72 min-h-72 w-full rounded-md border bg-card shadow-xl md:w-1/4"
+            className="max-h-56 min-h-56 flex items-center justify-center w-fit rounded-md border bg-card shadow-xl md:w-1/4"
             key={band.id}
           >
-            {/* <Link className="" href={`/bands/${band.id}`}> */}
-              <div className="flex-col items-baseline p-5">
-                <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
-                <Image
-                  className="rounded-sm"
-                  src={band.bandPic || "/default-image.png"}
-                  alt={band.bandName}
-                  width={100}
-                  height={75}
+            <div className="flex-col items-baseline p-5">
+              <h1 className="my-1 text-left text-2xl">{band.bandName}</h1>
+              <Image
+                className="rounded-sm"
+                src={band.bandPic || "/default-image.png"}
+                alt={band.bandName}
+                width={150}
+                height={75}
+              />
+              <div className="my-2 flex justify-between">
+                <div>
+                  <BandLinks links={band.link || []} />{" "}
+                </div>
+                <div>
+                <BandInfo
+                  bandName={band.bandName}
+                  bandBio={band.bandBio}
+                  bandOrigin={band.bandOrigin}
+                  bandYearsActive={band.bandYearsActive}
                 />
-                <h2 className="my-2">Origin: {band.bandOrigin}</h2>
-                <h3 className="my-2">Years Active: {band.bandYearsActive}</h3>
-                <h4 className="my-2"><BandLinks links={band.link || []}/> <BandInfo bandName={band.bandName} bandBio={band.bandBio} bandPic={band.bandPic} bandOrigin={band.bandOrigin} bandActive={false} bandYearsActive={band.bandYearsActive} link={[]}/></h4>
-                <h5></h5>
+                </div>
               </div>
-            {/* </Link> */}
-
+            </div>
           </div>
         ))}
       </div>
@@ -98,4 +103,3 @@ export default function BandList() {
     </>
   );
 }
-
