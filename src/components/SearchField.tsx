@@ -32,7 +32,7 @@ export default function SearchField() {
   return (
     <>
       <Button variant="ghost" onClick={() => setIsModalOpen(true)}>
-        <SearchIcon className="absolute right-3 top-1/2 size-5 -translate-y-1/2 transform text-muted-foreground" />
+        <SearchIcon className="mt-5 size-15 -translate-y-1/2 transform text-muted-foreground" />
       </Button>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
