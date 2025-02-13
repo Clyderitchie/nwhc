@@ -3,12 +3,9 @@
 import { FindAllBands } from "@/app/(main)/bands/actions";
 import {  BandData as BandDataType } from "@/lib/types";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { BanIcon } from "lucide-react";
 import BandLinks from "./BandLinks";
-import BandIno from "./BandInfo";
 import BandInfo from "./BandInfo";
 
 const ITEMS_PER_PAGE = 9;
@@ -37,6 +34,7 @@ export default function BandList() {
     const fetchedBands = async () => {
       try {
         const everyBand = await FindAllBands();
+        console.log(everyBand)
         setBands(everyBand);
       } catch (error) {
         console.error("Failed to fetch bands");
