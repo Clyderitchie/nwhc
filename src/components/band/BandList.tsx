@@ -1,7 +1,7 @@
 "use client";
 
 import { FindAllBands } from "@/app/(main)/bands/actions";
-import { BandData } from "@/lib/types";
+import {  BandData as BandDataType } from "@/lib/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -13,8 +13,21 @@ import BandInfo from "./BandInfo";
 
 const ITEMS_PER_PAGE = 9;
 
+export interface BandData {
+    id: string;
+    bandId: string | null;
+    appleMusic: string | null;
+    spotifyMusic: string | null; // Add this property
+    bandCamp: string | null;
+    twitter: string | null;
+    instagram: string | null;
+    shop: string | null;
+    showId: string | null;
+    interviewId: string | null;
+}
+
 export default function BandList() {
-  const [bands, setBands] = useState<BandData[]>([]);
+  const [bands, setBands] = useState<BandDataType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchParams = useSearchParams();
@@ -74,7 +87,7 @@ export default function BandList() {
               />
               <div className="my-2 flex justify-between">
                 <div>
-                  <BandLinks links={band.link || []} />{" "}
+                  <BandLinks links={band.link || []} />
                 </div>
                 <div>
                 <BandInfo
