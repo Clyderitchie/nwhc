@@ -41,6 +41,7 @@ export function getBandDataSelect() {
         showId: true,
         interviewId: true,
         appleMusic: true,
+        spotifyMusic: true,
         bandCamp: true,
         twitter: true,
         instagram: true,
