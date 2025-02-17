@@ -1,10 +1,9 @@
 "use client";
 
 import { FindAllShows } from "@/app/(main)/shows/actions";
-import { ShowData } from "@/lib/types";
+import { ShowData as ShowDataTypes } from "@/lib/types";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import ShowDelete from "./DeleteShow";
 import { useSession } from "@/app/(main)/SessionProvider";
@@ -13,9 +12,22 @@ import ShowLinks from "./ShowLink";
 
 const ITEMS_PER_PAGE = 9;
 
+export interface ShowData {
+    id: string;
+    bandId: string | null;
+    appleMusic: string | null;
+    spotifyMusic: string | null; 
+    bandCamp: string | null;
+    twitter: string | null;
+    instagram: string | null;
+    shop: string | null;
+    showId: string | null;
+    interviewId: string | null;
+}
+
 export default function ShowList() {
   const { user } = useSession() || { user: null };
-  const [shows, setShows] = useState<ShowData[]>([]);
+  const [shows, setShows] = useState<ShowDataTypes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
@@ -59,7 +71,6 @@ export default function ShowList() {
             className="flex max-h-64 min-h-64 w-fit items-center justify-center rounded-md border bg-card shadow-xl md:w-1/4"
             key={show.id}
           >
-            {/* <Link href={`/shows/${show.id}`}> */}
             <div className="flex-col items-baseline p-5">
               <h1 className="my-1 text-left text-2xl">{show.showName}</h1>
               <Image

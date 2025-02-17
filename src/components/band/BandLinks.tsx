@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Music } from "lucide-react";
-import { Button } from "../ui/button"; // Adjust the import path as necessary
+import { Button } from "../ui/button"; 
 import Link from "next/link";
 
 interface BandLinkProps {

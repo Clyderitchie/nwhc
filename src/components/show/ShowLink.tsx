@@ -1,5 +1,4 @@
 "use client";
-
 import { Link2Icon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -20,14 +19,14 @@ interface ShowLinkProps {
 export default function ShowLinks({ links = [] }: ShowLinkProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleClick = () => {
+  const handleLinkIconClick = () => {
     setIsModalOpen(true);
   };
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <Link2Icon onClick={handleClick} />
+        <Link2Icon onClick={handleLinkIconClick} />
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
