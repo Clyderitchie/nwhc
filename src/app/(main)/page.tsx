@@ -35,7 +35,7 @@ export default function HomePage() {
           <div
             className={`h-fit w-full min-w-0 space-y-5 ${fadeIn ? "fade-in" : ""}`}
           >
-            <div className="border text-xl">
+            <div className="text-xl">
               <p>
                 The goal of this page is to have a localized place for
                 everything encompassing the northwest NWHC scene. From a current
