@@ -52,6 +52,23 @@ export async function NewInterview(input: {
   }
 }
 
+export async function DeleteInterview(interviewId: string) {
+    const { user } = await validateRequest();
+    if (!user) throw Error("Unauthorized");
+
+    try {
+        const interviewToDelete = await prisma.interview.findUnique({
+            where: { id: interviewId },
+        });
+        if (!interviewToDelete) throw new Error("Interview not found");
+        await prisma.interview.delete({
+            where: { id: interviewId }
+        })
+    } catch (error) {
+        console.error("Interview error: ", error )
+    }
+}
+
 export async function FindAllInterviews(): Promise<InterviewData[]> {
   try {
     const interviews = await prisma.interview.findMany({

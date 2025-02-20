@@ -1,14 +1,17 @@
 "use client";
 
 import { FindAllInterviews } from "@/app/(main)/interviews/actions";
+import { useSession } from "@/app/(main)/SessionProvider";
 import { InterviewData } from "@/lib/types";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import InterviewDelete from "./DeleteInterview";
 
 const ITEMS_PER_PAGE = 9;
 
 export default function InterviewList() {
+  const { user } = useSession() || { user: null };
   const [interviews, setInterviews] = useState<InterviewData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const searchParams = useSearchParams();
@@ -57,6 +60,13 @@ export default function InterviewList() {
               <div className="flex-col items-baseline p-5">
                 <h1 className="my-1 text-left text-2xl">{interview.title}</h1>
                 <h2 className="my-2">Origin: {interview.content}</h2>
+              </div>
+              <div>
+                {user ? (
+                  <InterviewDelete interviewId={interview.id} />
+                ) : (
+                  <span></span>
+                )}
               </div>
             </Link>
           </div>
