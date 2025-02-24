@@ -1,211 +1,188 @@
-// "use client";
+"use client";
 
-// import { UpdateBand } from "@/app/(main)/bands/actions";
-// import { useRouter } from "next/navigation";
-// import { useState } from "react";
-// import { Input } from "../ui/input";
-// import { Button } from "../ui/button";
-// import { CirclePlus } from "lucide-react";
+import { UpdateBandActions } from "@/app/(main)/bands/actions";
+import { Pencil } from "lucide-react";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
-// interface BandUpdateProps {
-//   formData: {
-//     bandId: string;
-//     bandName?: string;
-//     bandPic?: string;
-//     bandBio?: string;
-//     bandOrigin?: string;
-//     bandActive?: string;
-//     bandYearsActive?: string;
-//     bandCampLink?: string;
-//     bandAppleLink?: string;
-//     bandSpotifyLink?: string;
-//     bandOtherMusicLink?: string;
-//   };
+interface UpdateBandProps {
+  bandId: string;
+  bandName: string;
+  bandPic: string | null;
+  bandBio: string;
+  bandOrigin: string;
+  bandActive: boolean;
+  bandYearsActive: string;
+  isSubmitting: boolean;
+  setIsSubmitting: (isSubmitting: boolean) => void;
+}
 
-//   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-//   isSubmitting: boolean;
-//   setIsSubmitting: (isSubmitting: boolean) => void;
-// }
+export default function UpdateBand({
+  bandId,
+  bandName,
+  bandPic,
+  bandBio,
+  bandOrigin,
+  bandActive,
+  bandYearsActive,
+  isSubmitting,
+  setIsSubmitting,
+}: UpdateBandProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    bandId,
+    bandName,
+    bandPic,
+    bandBio,
+    bandOrigin,
+    bandActive,
+    bandYearsActive,
+  });
+  const [file, setFile] = useState<File | null>(null);
 
-// export default function BandUpdate({
-//   formData,
-//   handleChange,
-//   isSubmitting,
-//   setIsSubmitting,
-// }: BandUpdateProps) {
-//   //   const [formData, setFormData] = useState({
-//   //     bandId: "",
-//   //     bandName: "",
-//   //     bandPic: "",
-//   //     bandBio: "",
-//   //     bandOrigin: "",
-//   //     bandActive: "",
-//   //     bandYearsActive: "",
-//   //     bandCampLink: "",
-//   //     bandAppleLink: "",
-//   //     bandSpotifyLink: "",
-//   //     bandOtherMusicLink: "",
-//   //   });
-//   const router = useRouter();
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [file, setFile] = useState<File | null>(null);
+  const handleUpdateClick = () => {
+    console.log("Band ID: ", bandId);
+    console.log("Band Name: ", bandYearsActive);
+    setIsModalOpen(true);
+  };
 
-//   const handleSubmit = async () => {
-//     setIsSubmitting(true);
-//     let imageUrl = formData.bandPic;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
-//     if (file) {
-//       const cloudName = "your-cloud-name";
-//       const uploadPreset = "your-upload-preset";
-//       const formData = new FormData();
-//       formData.append("file", file);
-//       formData.append("upload_preset", "dgayr62l");
-//       formData.append("api_key", "684664141884165");
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files ? e.target.files[0] : null);
+  };
 
-//       try {
-//         const res = await fetch(
-//           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-//           { method: "POST", body: formData },
-//         );
-//         if (res.ok) {
-//           const data = await res.json();
-//           imageUrl = data.url;
-//         } else {
-//           throw new Error("Failed to upload image.");
-//         }
-//       } catch (error) {
-//         console.error("Error uploading image: ", error);
-//         setIsSubmitting(false);
-//         return;
-//       }
-//     }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-//     const updatedBandData = {
-//       bandId: formData.bandId,
-//       bandName: formData.bandName,
-//       bandPic: imageUrl,
-//       bandBio: formData.bandBio,
-//       bandOrigin: formData.bandOrigin,
-//       bandActive: formData.bandActive,
-//       bandYearsActive: formData.bandYearsActive,
-//       bandCampLink: formData.bandCampLink,
-//       bandAppleLink: formData.bandAppleLink,
-//       bandSpotifyLink: formData.bandSpotifyLink,
-//       bandOtherMusicLink: formData.bandOtherMusicLink,
-//     };
+    const bandId = formData.bandId!;
 
-//     try {
-//       const UpdatedBand = await UpdateBand(updatedBandData);
-//       //   router.push(`/bands`);
-//       window.location.reload();
-//     } catch (error) {
-//       console.error("Failed to created a band");
-//     } finally {
-//       setIsSubmitting(false);
-//       setIsModalOpen(false);
-//     }
-//   };
+    const updateBandData: {
+        bandId: string;
+        bandName?: string;
+        bandPic?: string | undefined;
+        bandBio?: string;
+        bandOrigin?: string;
+        bandActive?: boolean;
+        bandYearsActive?: string;
+      } = { bandId };
 
-//   return (
-//     <>
-//       <div className="flex items-center">
-//         <CirclePlus onClick={() => setIsModalOpen(true)} />
-//         <span className="mx-3 text-lg">Update</span>
-//       </div>
-//       {isModalOpen && (
-//         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
-//           <div className="max-h-96 min-h-96 w-96 overflow-y-auto rounded-lg bg-white p-6 shadow-lg">
-//             <h2 className="text-center text-2xl">New Band Information:</h2>
-//             <div>
-//               <Input
-//                 name="bandName"
-//                 placeholder="Band Name"
-//                 value={formData.bandName}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <input
-//                 type="file"
-//                 onChange={(e) => {
-//                   console.log(
-//                     "File selected:",
-//                     e.target.files ? e.target.files[0] : null,
-//                   );
-//                   setFile(e.target.files ? e.target.files[0] : null);
-//                 }}
-//               />
+    if (formData.bandName.trim() !== "") {
+      updateBandData.bandName = formData.bandName;
+    }
+    if (formData.bandBio.trim() !== "") {
+      updateBandData.bandBio = formData.bandBio;
+    }
 
-//               <Input
-//                 name="bandBio"
-//                 placeholder="Band Bio"
-//                 value={formData.bandBio}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandOrigin"
-//                 placeholder="Band Origin"
-//                 value={formData.bandOrigin}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandActive"
-//                 placeholder="Band Active"
-//                 value={formData.bandActive}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandYearsActive"
-//                 placeholder="Band Years Active"
-//                 value={formData.bandYearsActive}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandCampLink"
-//                 placeholder="Band Camp link"
-//                 value={formData.bandCampLink}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandAppleLink"
-//                 placeholder="Apple Music link"
-//                 value={formData.bandAppleLink}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandSpotifyLink"
-//                 placeholder="Spotify Link"
-//                 value={formData.bandSpotifyLink}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//               <Input
-//                 name="bandOtherMusicLink"
-//                 placeholder="Other music link"
-//                 value={formData.bandOtherMusicLink}
-//                 onChange={handleChange}
-//                 className="my-7 min-w-full"
-//               />
-//             </div>
-//             <Button
-//               type="button"
-//               className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
-//               onClick={handleSubmit}
-//               disabled={isSubmitting}
-//             >
-//               {isSubmitting ? "Submitting..." : "Submit"}
-//             </Button>
-//             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
-//               Cancel
-//             </Button>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
+    if (file) {
+      const cloudName = "your-cloud-name";
+      const uploadPreset = "your-upload-preset";
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "dgayr62l");
+      formData.append("api_key", "684664141884165");
+
+      try {
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          { method: "POST", body: formData },
+        );
+        if (res.ok) {
+          const data = await res.json();
+          updateBandData.bandPic = data.url;
+        } else {
+          throw new Error("Failed to upload image.");
+        }
+      } catch (error) {
+        console.error("Error uploading image: ", error);
+        setIsSubmitting(false);
+        return;
+      }
+    } else {
+        updateBandData.bandPic = formData.bandPic !== null ? formData.bandPic : undefined;
+    }
+
+    if (formData.bandOrigin.trim() !== "") {
+      updateBandData.bandOrigin = formData.bandOrigin;
+    }
+
+    updateBandData.bandActive = formData.bandActive;
+
+    if (formData.bandYearsActive.trim() !== "") {
+      updateBandData.bandYearsActive = formData.bandYearsActive;
+    }
+
+    try {
+      const updatedBand = await UpdateBandActions(updateBandData);
+      setIsModalOpen(false);
+      window.location.reload();
+      return updatedBand
+    } catch (error) {
+      console.error("Error update: ", error);
+      throw Error;
+    }
+  };
+
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <Pencil onClick={handleUpdateClick} />
+      </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="w-96 flex-col rounded-lg bg-white p-6 shadow-lg">
+            <h2 className="text-center text-2xl">Band Edit</h2>
+            <div className="my-4">
+              <Input
+                name="bandName"
+                placeholder="Band Name"
+                value={formData.bandName}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandBio"
+                placeholder="Band Bio"
+                value={formData.bandBio}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandOrigin"
+                placeholder="Band Origin"
+                value={formData.bandOrigin}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="bandYearsActive"
+                placeholder="Band Years Active"
+                value={formData.bandYearsActive}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+            </div>
+            <Button
+              type="button"
+              className="me-4 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </Button>
+            <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

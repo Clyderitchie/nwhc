@@ -1,32 +1,38 @@
 "use client";
 
 import { FindAllBands } from "@/app/(main)/bands/actions";
-import {  BandData as BandDataType } from "@/lib/types";
+import { BandData as BandDataType } from "@/lib/types";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import BandLinks from "./BandLinks";
 import BandInfo from "./BandInfo";
+import BandDelete from "./DeleteBand";
+import { useSession } from "@/app/(main)/SessionProvider";
+import UpdateBand from "./UpdateBand";
+import { Span } from "next/dist/trace";
 
 const ITEMS_PER_PAGE = 9;
 
 export interface BandData {
-    id: string;
-    bandId: string | null;
-    appleMusic: string | null;
-    spotifyMusic: string | null; // Add this property
-    bandCamp: string | null;
-    twitter: string | null;
-    instagram: string | null;
-    shop: string | null;
-    showId: string | null;
-    interviewId: string | null;
+  id: string;
+  bandId: string | null;
+  appleMusic: string | null;
+  spotifyMusic: string | null; // Add this property
+  bandCamp: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  shop: string | null;
+  showId: string | null;
+  interviewId: string | null;
 }
 
 export default function BandList() {
+  const { user } = useSession() || { user: null };
   const [bands, setBands] = useState<BandDataType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
@@ -34,7 +40,7 @@ export default function BandList() {
     const fetchedBands = async () => {
       try {
         const everyBand = await FindAllBands();
-        console.log(everyBand)
+        console.log(everyBand);
         setBands(everyBand);
       } catch (error) {
         console.error("Failed to fetch bands");
@@ -71,7 +77,7 @@ export default function BandList() {
       <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {displayedBands.map((band) => (
           <div
-            className="max-h-56 min-h-56 flex items-center justify-center w-fit rounded-md border bg-card shadow-xl md:w-1/4"
+            className="flex max-h-56 min-h-56 w-fit items-center justify-center rounded-md border bg-card shadow-xl md:w-1/4"
             key={band.id}
           >
             <div className="flex-col items-baseline p-5">
@@ -88,12 +94,32 @@ export default function BandList() {
                   <BandLinks links={band.link || []} />
                 </div>
                 <div>
-                <BandInfo
-                  bandName={band.bandName}
-                  bandBio={band.bandBio}
-                  bandOrigin={band.bandOrigin}
-                  bandYearsActive={band.bandYearsActive}
-                />
+                  {user ? <BandDelete bandId={band.id} /> : <span></span>}
+                </div>
+                <div>
+                  {user ? (
+                    <UpdateBand
+                      bandId={band.id}
+                      bandName={band.bandName}
+                      bandPic={band.bandPic}
+                      bandBio={band.bandBio}
+                      bandOrigin={band.bandOrigin}
+                      bandActive={false}
+                      bandYearsActive={band.bandYearsActive}
+                      isSubmitting={isSubmitting}
+                      setIsSubmitting={setIsSubmitting}
+                    />
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
+                <div>
+                  <BandInfo
+                    bandName={band.bandName}
+                    bandBio={band.bandBio}
+                    bandOrigin={band.bandOrigin}
+                    bandYearsActive={band.bandYearsActive}
+                  />
                 </div>
               </div>
             </div>

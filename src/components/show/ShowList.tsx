@@ -13,16 +13,16 @@ import ShowLinks from "./ShowLink";
 const ITEMS_PER_PAGE = 9;
 
 export interface ShowData {
-    id: string;
-    bandId: string | null;
-    appleMusic: string | null;
-    spotifyMusic: string | null; 
-    bandCamp: string | null;
-    twitter: string | null;
-    instagram: string | null;
-    shop: string | null;
-    showId: string | null;
-    interviewId: string | null;
+  id: string;
+  bandId: string | null;
+  appleMusic: string | null;
+  spotifyMusic: string | null;
+  bandCamp: string | null;
+  twitter: string | null;
+  instagram: string | null;
+  shop: string | null;
+  showId: string | null;
+  interviewId: string | null;
 }
 
 export default function ShowList() {
@@ -85,6 +85,15 @@ export default function ShowList() {
                   <ShowLinks links={show.link || []} />
                 </div>
                 <div>
+                  {user ? (
+                    <div className="hidden justify-end align-baseline md:flex">
+                      <ShowDelete showId={show.id} />
+                    </div>
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
+                <div>
                   <ShowInfo
                     showName={show.showName}
                     showInfo={show.showInfo}
@@ -94,13 +103,6 @@ export default function ShowList() {
                 </div>
               </div>
             </div>
-            {user ? (
-              <div className="hidden justify-end align-baseline md:flex">
-                <ShowDelete showId={show.id} />
-              </div>
-            ) : (
-              <span></span>
-            )}
           </div>
         ))}
       </div>
