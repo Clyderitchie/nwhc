@@ -125,11 +125,11 @@ export async function getShow(id: string) {
 
 export async function UpdateShowActions(input: {
     showId: string;
-    showName: string;
-    flyerLink: string;
-    showInfo: string;
-    showTime: string;
-    showLocation: string;
+    showName?: string;
+    flyerLink?: string;
+    showInfo?: string;
+    showTime?: string;
+    showLocation?: string;
 }) {
     const { user } = await validateRequest();
 
