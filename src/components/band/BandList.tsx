@@ -9,6 +9,8 @@ import BandLinks from "./BandLinks";
 import BandInfo from "./BandInfo";
 import BandDelete from "./DeleteBand";
 import { useSession } from "@/app/(main)/SessionProvider";
+import UpdateBand from "./UpdateBand";
+import { Span } from "next/dist/trace";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -30,6 +32,7 @@ export default function BandList() {
   const [bands, setBands] = useState<BandDataType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
@@ -92,6 +95,23 @@ export default function BandList() {
                 </div>
                 <div>
                   {user ? <BandDelete bandId={band.id} /> : <span></span>}
+                </div>
+                <div>
+                  {user ? (
+                    <UpdateBand
+                      bandId={band.id}
+                      bandName={band.bandName}
+                      bandPic={band.bandPic}
+                      bandBio={band.bandBio}
+                      bandOrigin={band.bandOrigin}
+                      bandActive={false}
+                      bandYearsActive={band.bandYearsActive}
+                      isSubmitting={isSubmitting}
+                      setIsSubmitting={setIsSubmitting}
+                    />
+                  ) : (
+                    <span></span>
+                  )}
                 </div>
                 <div>
                   <BandInfo

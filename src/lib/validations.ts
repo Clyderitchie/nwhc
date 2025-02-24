@@ -65,23 +65,12 @@ export const updateBandSchema = z.object({
   bandPic: z.string().optional(),
   bandBio: z.string().optional(),
   bandOrigin: z.string().optional(),
-  bandActive: z.string().optional(),
+  bandActive: z.boolean(),
   bandYearsActive: z.string().optional(),
   bandCampLink: z.string().optional(),
   bandAppleLink: z.string().optional(),
   bandSpotifyLink: z.string().optional(),
   bandOtherMusicLink: z.string().optional(),
-  shows: z
-    .array(
-      z.object({
-        id: z.string().optional(),
-        showName: z.string(),
-        flyerLink: z.string(),
-        showInfo: z.string(),
-        bandId: z.string().optional(),
-      }),
-    )
-    .optional(),
 });
 
 export type UpdateBandValue = z.infer<typeof updateBandSchema>;
@@ -94,18 +83,18 @@ export const createShowSchema = z.object({
   showLocation: z.string(),
   showTime: z.string(),
   link: z
-  .array(
-    z.object({
-      id: z.string().optional(),
-      appleMusic: z.string(),
-      spotifyMusic: z.string(),
-      bandCamp: z.string(),
-      twitter: z.string(),
-      instagram: z.string(),
-      shop: z.string(),
-    }),
-  )
-  .optional(),
+    .array(
+      z.object({
+        id: z.string().optional(),
+        appleMusic: z.string(),
+        spotifyMusic: z.string(),
+        bandCamp: z.string(),
+        twitter: z.string(),
+        instagram: z.string(),
+        shop: z.string(),
+      }),
+    )
+    .optional(),
 });
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;
@@ -118,18 +107,18 @@ export const createInterviewSchema = z.object({
   answers: z.string(),
   pics: z.string().optional(),
   link: z
-  .array(
-    z.object({
-      id: z.string().optional(),
-      appleMusic: z.string(),
-      spotifyMusic: z.string(),
-      bandCamp: z.string(),
-      twitter: z.string(),
-      instagram: z.string(),
-      shop: z.string(),
-    }),
-  )
-  .optional(),
-})
+    .array(
+      z.object({
+        id: z.string().optional(),
+        appleMusic: z.string(),
+        spotifyMusic: z.string(),
+        bandCamp: z.string(),
+        twitter: z.string(),
+        instagram: z.string(),
+        shop: z.string(),
+      }),
+    )
+    .optional(),
+});
 
 export type CreateInterview = z.infer<typeof createInterviewSchema>;
