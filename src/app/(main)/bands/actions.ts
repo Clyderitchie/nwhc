@@ -3,7 +3,7 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { BandData, getBandDataSelect } from "@/lib/types";
-import { createBandSchema } from "@/lib/validations";
+import { createBandSchema, updateBandSchema } from "@/lib/validations";
 
 export async function NewBand(input: {
   bandName: string;
@@ -160,4 +160,56 @@ export async function getBand(id: string) {
     },
   });
   return band;
+}
+
+export async function UpdateBandActions(input: {
+  bandId: string;
+  bandName?: string;
+  bandPic?: string;
+  bandBio?: string;
+  bandOrigin?: string;
+  bandActive?: boolean;
+  bandYearsActive?: string;
+}) {
+  const { user } = await validateRequest();
+
+  if (!user) throw Error("Unauthorized");
+
+  try {
+    const existingBand = await prisma.band.findUnique({
+      where: { id: input.bandId },
+      select: {
+        id: true,
+        bandName: true,
+        bandPic: true,
+        bandBio: true,
+        bandOrigin: true,
+        bandActive: true,
+        bandYearsActive: true,
+      },
+    });
+    if (!existingBand) throw Error("Wrong band");
+    const validatedBandData = updateBandSchema.parse(input);
+    const updatedData = {
+    //   bandId: existingBand.id,
+      bandName: validatedBandData.bandName ?? existingBand.bandName,
+      bandPic: validatedBandData.bandPic ?? existingBand.bandPic,
+      bandBio: validatedBandData.bandBio ?? existingBand.bandBio,
+      bandOrigin: validatedBandData.bandOrigin ?? existingBand.bandOrigin,
+      bandActive: validatedBandData.bandActive ?? existingBand.bandActive,
+      bandYearsActive:
+        validatedBandData.bandYearsActive ?? existingBand.bandYearsActive
+    };
+
+    const updateBand = await prisma.band.update({
+      where: { id: input.bandId },
+      data: updatedData,
+    });
+
+    console.log("Updated the band: ", updateBand);
+    return updateBand;
+  } catch (error) {
+    console.error("Error with update on band: ", error);
+    throw error;
+  }
 }
