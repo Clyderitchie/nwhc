@@ -99,6 +99,17 @@ export const createShowSchema = z.object({
 
 export type CreateShowValues = z.infer<typeof createShowSchema>;
 
+export const updateShowSchema = z.object({
+  showId: z.string(),
+  showName: z.string().optional(),
+  flyerLink: z.string().optional(),
+  showInfo: z.string().optional(),
+  showLocation: z.string().optional(),
+  showTime: z.string().optional(),
+});
+
+export type updateShowSchema = z.infer<typeof updateShowSchema>;
+
 export const createInterviewSchema = z.object({
   title: z.string(),
   content: z.string(),
