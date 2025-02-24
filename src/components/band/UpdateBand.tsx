@@ -9,7 +9,7 @@ import { Input } from "../ui/input";
 interface UpdateBandProps {
   bandId: string;
   bandName: string;
-  bandPic: string;
+  bandPic: string | null;
   bandBio: string;
   bandOrigin: string;
   bandActive: boolean;
@@ -61,7 +61,15 @@ export default function UpdateBand({
 
     const bandId = formData.bandId!;
 
-    const updateBandData: Partial<typeof formData> = { bandId };
+    const updateBandData: {
+        bandId: string;
+        bandName?: string;
+        bandPic?: string | undefined;
+        bandBio?: string;
+        bandOrigin?: string;
+        bandActive?: boolean;
+        bandYearsActive?: string;
+      } = { bandId };
 
     if (formData.bandName.trim() !== "") {
       updateBandData.bandName = formData.bandName;
@@ -95,7 +103,7 @@ export default function UpdateBand({
         return;
       }
     } else {
-      updateBandData.bandPic = formData.bandPic;
+        updateBandData.bandPic = formData.bandPic !== null ? formData.bandPic : undefined;
     }
 
     if (formData.bandOrigin.trim() !== "") {
@@ -112,6 +120,7 @@ export default function UpdateBand({
       const updatedBand = await UpdateBandActions(updateBandData);
       setIsModalOpen(false);
       window.location.reload();
+      return updatedBand
     } catch (error) {
       console.error("Error update: ", error);
       throw Error;
