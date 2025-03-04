@@ -3,7 +3,7 @@
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getShowDataSelect, ShowData } from "@/lib/types";
-import { createShowSchema } from "@/lib/validations";
+import { createShowSchema, updateShowSchema } from "@/lib/validations";
 import { notFound } from "next/navigation";
 
 export async function NewShow(input: {
@@ -121,4 +121,52 @@ export async function getShow(id: string) {
   console.log("show from actions: ", show);
   if (!show) notFound();
   return show;
+}
+
+export async function UpdateShowActions(input: {
+    showId: string;
+    showName?: string;
+    flyerLink?: string;
+    showInfo?: string;
+    showTime?: string;
+    showLocation?: string;
+}) {
+    const { user } = await validateRequest();
+
+    if (!user) throw Error("Unauthorized");
+
+    try {
+        const existingShow = await prisma.show.findUnique({
+            where: { id: input.showId },
+            select: {
+                id: true,
+                showName: true,
+                showInfo: true,
+                flyerLink: true,
+                showTime: true,
+                showLocation: true,
+            },
+        });
+
+        if (!existingShow) throw Error("Wrong show");
+        const validatedShowData = updateShowSchema.parse(input);
+        const updateShowData = {
+            showName: validatedShowData.showName ?? existingShow.showName,
+            showInfo: validatedShowData.showInfo ?? existingShow.showInfo,
+            flyerLink: validatedShowData.flyerLink ?? existingShow.flyerLink,
+            showTime: validatedShowData.showTime ?? existingShow.showTime,
+            showLocation: validatedShowData.showLocation ?? existingShow.showLocation,
+        };
+
+        const updateShow = await prisma.show.update({
+            where: { id: input.showId},
+            data: updateShowData
+        });
+
+        console.log("Updating show to this: ", updateShow)
+        return updateShow;
+    } catch (error) {
+        console.error("Error updating: ", error);
+        throw error;
+    }
 }

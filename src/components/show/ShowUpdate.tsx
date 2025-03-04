@@ -1,49 +1,45 @@
 "use client";
 
-import { UpdateBandActions } from "@/app/(main)/bands/actions";
+import { UpdateShowActions } from "@/app/(main)/shows/actions";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
-interface UpdateBandProps {
-  bandId: string;
-  bandName: string;
-  bandPic: string | null;
-  bandBio: string;
-  bandOrigin: string;
-  bandActive: boolean;
-  bandYearsActive: string;
+interface ShowUpdateProps {
+  showId: string;
+  showName: string;
+  flyerLink: string | null;
+  showInfo: string;
+  showTime: string;
+  showLocation: string;
   isSubmitting: boolean;
   setIsSubmitting: (isSubmitting: boolean) => void;
 }
 
-export default function UpdateBand({
-  bandId,
-  bandName,
-  bandPic,
-  bandBio,
-  bandOrigin,
-  bandActive,
-  bandYearsActive,
+export default function ShowUpdate({
+  showId,
+  showName,
+  flyerLink,
+  showInfo,
+  showTime,
+  showLocation,
   isSubmitting,
   setIsSubmitting,
-}: UpdateBandProps) {
+}: ShowUpdateProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    bandId,
-    bandName,
-    bandPic,
-    bandBio,
-    bandOrigin,
-    bandActive,
-    bandYearsActive,
+    showId,
+    showName,
+    flyerLink,
+    showInfo,
+    showTime,
+    showLocation,
   });
   const [file, setFile] = useState<File | null>(null);
 
   const handleUpdateClick = () => {
-    console.log("Band ID: ", bandId);
-    console.log("Band Name: ", bandYearsActive);
+    console.log("Show id: ", showId);
     setIsModalOpen(true);
   };
 
@@ -59,23 +55,19 @@ export default function UpdateBand({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const bandId = formData.bandId!;
+    const showId: string = formData.showId!;
 
-    const updateBandData: {
-        bandId: string;
-        bandName?: string;
-        bandPic?: string | undefined;
-        bandBio?: string;
-        bandOrigin?: string;
-        bandActive?: boolean;
-        bandYearsActive?: string;
-      } = { bandId };
+    const updateShowData: {
+      showId: string;
+      showName?: string;
+      flyerLink?: string | undefined;
+      showInfo?: string;
+      showTime?: string;
+      showLocation?: string;
+    } = { showId };
 
-    if (formData.bandName.trim() !== "") {
-      updateBandData.bandName = formData.bandName;
-    }
-    if (formData.bandBio.trim() !== "") {
-      updateBandData.bandBio = formData.bandBio;
+    if (formData.showName.trim() !== "") {
+      updateShowData.showName = formData.showName;
     }
 
     if (file) {
@@ -93,7 +85,7 @@ export default function UpdateBand({
         );
         if (res.ok) {
           const data = await res.json();
-          updateBandData.bandPic = data.url;
+          updateShowData.flyerLink = data.url;
         } else {
           throw new Error("Failed to upload image.");
         }
@@ -103,27 +95,30 @@ export default function UpdateBand({
         return;
       }
     } else {
-        updateBandData.bandPic = formData.bandPic !== null ? formData.bandPic : undefined;
+      updateShowData.flyerLink =
+        formData.flyerLink !== null ? formData.flyerLink : undefined;
     }
 
-    if (formData.bandOrigin.trim() !== "") {
-      updateBandData.bandOrigin = formData.bandOrigin;
+    if (formData.showInfo.trim() !== "") {
+      updateShowData.showInfo = formData.showInfo;
     }
 
-    updateBandData.bandActive = formData.bandActive;
+    if (formData.showTime.trim() !== "") {
+      updateShowData.showTime = formData.showTime;
+    }
 
-    if (formData.bandYearsActive.trim() !== "") {
-      updateBandData.bandYearsActive = formData.bandYearsActive;
+    if (formData.showLocation.trim() !== "") {
+      updateShowData.showLocation = formData.showLocation;
     }
 
     try {
-      const updatedBand = await UpdateBandActions(updateBandData);
+      const updateShow = await UpdateShowActions(updateShowData);
       setIsModalOpen(false);
       window.location.reload();
-      return updatedBand
+      return updateShow;
     } catch (error) {
-      console.error("Error update: ", error);
-      throw Error;
+      console.error("Could not update: ", error);
+      throw error;
     }
   };
 
@@ -135,39 +130,39 @@ export default function UpdateBand({
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex h-screen items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="w-96 flex-col rounded-lg bg-white p-6 shadow-lg">
-            <h2 className="text-center text-2xl">Band Edit</h2>
+            <h2 className="text-center text-2xl">Show Edit</h2>
             <div className="my-4">
               <Input
-                name="bandName"
-                placeholder="Band Name"
-                value={formData.bandName}
+                name="showName"
+                placeholder="Show Name"
+                value={formData.showName}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
               <Input
-                name="bandBio"
-                placeholder="Band Bio"
-                value={formData.bandBio}
+                name="showInfo"
+                placeholder="Show Info"
+                value={formData.showInfo}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="showTime"
+                placeholder="Show Time"
+                value={formData.showTime}
+                onChange={handleChange}
+                className="my-7 min-w-full"
+              />
+              <Input
+                name="showLocation"
+                placeholder="Show Location"
+                value={formData.showLocation}
                 onChange={handleChange}
                 className="my-7 min-w-full"
               />
               <input
                 type="file"
                 onChange={handleFileChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandOrigin"
-                placeholder="Band Origin"
-                value={formData.bandOrigin}
-                onChange={handleChange}
-                className="my-7 min-w-full"
-              />
-              <Input
-                name="bandYearsActive"
-                placeholder="Band Years Active"
-                value={formData.bandYearsActive}
-                onChange={handleChange}
                 className="my-7 min-w-full"
               />
             </div>

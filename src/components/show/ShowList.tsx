@@ -9,6 +9,7 @@ import ShowDelete from "./DeleteShow";
 import { useSession } from "@/app/(main)/SessionProvider";
 import ShowInfo from "./ShowInfo";
 import ShowLinks from "./ShowLink";
+import ShowUpdate from "./ShowUpdate";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -29,6 +30,7 @@ export default function ShowList() {
   const { user } = useSession() || { user: null };
   const [shows, setShows] = useState<ShowDataTypes[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const searchParams = useSearchParams();
   const query = searchParams.get("q")?.toLowerCase() || "";
 
@@ -89,6 +91,22 @@ export default function ShowList() {
                     <div className="hidden justify-end align-baseline md:flex">
                       <ShowDelete showId={show.id} />
                     </div>
+                  ) : (
+                    <span></span>
+                  )}
+                </div>
+                <div>
+                  {user ? (
+                    <ShowUpdate
+                      showId={show.id}
+                      showName={show.showName}
+                      flyerLink={show.flyerLink}
+                      showInfo={show.showInfo}
+                      showTime={show.showTime}
+                      showLocation={show.showLocation}
+                      isSubmitting={isSubmitting}
+                      setIsSubmitting={setIsSubmitting}
+                    />
                   ) : (
                     <span></span>
                   )}
