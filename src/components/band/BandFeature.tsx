@@ -1,55 +1,60 @@
 "use client";
-
+// Make it so the bands that show are a random set of 9 bands that show 3 at a time and you can click through the pages of them. 
+// Pages work just need to add in a random function to pick a random set of 9 each load. 
 import { FindAllBands } from "@/app/(main)/bands/actions";
-import { BandData as BandDataType } from "@/lib/types";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { BandData as BandDataType } from "@/lib/types";
 import Image from "next/image";
 import BandLinks from "./BandLinks";
 import BandInfo from "./BandInfo";
-import BandDelete from "./DeleteBand";
-import { useSession } from "@/app/(main)/SessionProvider";
-import UpdateBand from "./UpdateBand";
-import { Span } from "next/dist/trace";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 3;
 
-export interface BandData {
-  id: string;
-  bandId: string | null;
-  appleMusic: string | null;
-  spotifyMusic: string | null; // Add this property
-  bandCamp: string | null;
-  twitter: string | null;
-  instagram: string | null;
-  shop: string | null;
-  showId: string | null;
-  interviewId: string | null;
+export interface BandFeatureProps {
+  bandId: string;
+  bandPic: string;
+  bandBio: string;
+  bandOrigin: string;
+  bandYearsActive: string;
+  appleMusic: string;
+  spotifyMusic: string;
+  bandCamp: string;
+  twitter: string;
+  instagram: string;
+  shop: string;
 }
 
-export default function BandList() {
-  const { user } = useSession() || { user: null };
+export default function BandFeature({
+  bandId,
+  bandPic,
+  bandBio,
+  bandOrigin,
+  bandYearsActive,
+  appleMusic,
+  spotifyMusic,
+  bandCamp,
+  twitter,
+  instagram,
+  shop,
+}: BandFeatureProps) {
   const [bands, setBands] = useState<BandDataType[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q")?.toLowerCase() || "";
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchedBands = async () => {
       try {
-        const everyBand = await FindAllBands();
-        setBands(everyBand);
+        const featuredBands = await FindAllBands();
+        setBands(featuredBands);
       } catch (error) {
-        console.error("Failed to fetch bands");
+        console.error("Failed to fetch band for feature");
       }
     };
     fetchedBands();
   }, []);
 
   const filteredBands = bands.filter((band) =>
-    band.bandName.toLocaleLowerCase().includes(query),
+    band.bandName.toLocaleLowerCase(),
   );
 
   const sortedBands = filteredBands.sort((a, b) =>
@@ -67,16 +72,12 @@ export default function BandList() {
     currentPage * ITEMS_PER_PAGE,
   );
 
-  const handleClick = () => {
-    setIsModalOpen(true);
-  };
-
   return (
     <>
-      <div className="my-8 flex max-h-full min-h-full min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
+      <div className="my-4 flex max-h-fit min-h-fit min-w-full max-w-full flex-wrap items-start justify-around gap-4 md:flex-row">
         {displayedBands.map((band) => (
           <div
-            className="flex max-h-56 min-h-56 w-fit items-center justify-center rounded-md border bg-card shadow-xl md:w-1/4"
+            className="flex max-h-56 min-h-56 w-fit items-center justify-center"
             key={band.id}
           >
             <div className="flex-col items-baseline p-5">
@@ -91,26 +92,6 @@ export default function BandList() {
               <div className="my-2 flex justify-between">
                 <div>
                   <BandLinks links={band.link || []} />
-                </div>
-                <div>
-                  {user ? <BandDelete bandId={band.id} /> : <span></span>}
-                </div>
-                <div>
-                  {user ? (
-                    <UpdateBand
-                      bandId={band.id}
-                      bandName={band.bandName}
-                      bandPic={band.bandPic}
-                      bandBio={band.bandBio}
-                      bandOrigin={band.bandOrigin}
-                      bandActive={false}
-                      bandYearsActive={band.bandYearsActive}
-                      isSubmitting={isSubmitting}
-                      setIsSubmitting={setIsSubmitting}
-                    />
-                  ) : (
-                    <span></span>
-                  )}
                 </div>
                 <div>
                   <BandInfo
