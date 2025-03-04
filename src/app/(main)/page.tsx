@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import power from "@/app/assets/power hero pic.jpg";
+import BandFeature from "@/components/band/BandFeature";
 
 export default function HomePage() {
   const [fadeIn, setFadeIn] = useState(false);
@@ -48,6 +49,21 @@ export default function HomePage() {
                 this site continuously on a regular basis. “This is our town,
                 this is our scene, these are our rules…Get bent”
               </p>
+            </div>
+            <div className="mt-28 min-h-fit max-h-fit">
+              <BandFeature
+                bandId={""}
+                bandPic={""}
+                bandBio={""}
+                bandOrigin={""}
+                bandYearsActive={""}
+                appleMusic={""}
+                spotifyMusic={""}
+                bandCamp={""}
+                twitter={""}
+                instagram={""}
+                shop={""}
+              />
             </div>
           </div>
           <style jsx>{`
