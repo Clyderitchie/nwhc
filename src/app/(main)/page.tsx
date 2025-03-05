@@ -36,7 +36,7 @@ export default function HomePage() {
           <div
             className={`h-fit w-full min-w-0 space-y-5 ${fadeIn ? "fade-in" : ""}`}
           >
-            <div className="text-xl">
+            <div className="text-xl my-2">
               <p>
                 The goal of this page is to have a localized place for
                 everything encompassing the northwest NWHC scene. From a current
@@ -50,7 +50,7 @@ export default function HomePage() {
                 this is our scene, these are our rules…Get bent”
               </p>
             </div>
-            <div className="mt-28 min-h-fit max-h-fit">
+            <div className="my-10 min-h-fit max-h-fit">
               <BandFeature
                 bandId={""}
                 bandPic={""}

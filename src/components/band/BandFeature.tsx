@@ -45,29 +45,24 @@ export default function BandFeature({
     const fetchedBands = async () => {
       try {
         const featuredBands = await FindAllBands();
-        setBands(featuredBands);
+        setBands(shuffleAndPickBands(featuredBands, 9)); 
       } catch (error) {
-        console.error("Failed to fetch band for feature");
+        console.error("Failed to fetch bands for feature");
       }
     };
     fetchedBands();
   }, []);
 
-  const filteredBands = bands.filter((band) =>
-    band.bandName.toLocaleLowerCase(),
-  );
-
-  const sortedBands = filteredBands.sort((a, b) =>
-    a.bandName.localeCompare(b.bandName),
-  );
-
-  const totalPages = Math.ceil(sortedBands.length / ITEMS_PER_PAGE);
+  const shuffleAndPickBands = (bands: BandDataType[], count: number) => {
+    const shuffledBands = [...bands].sort(() => 0.5 - Math.random());
+    return shuffledBands.slice(0, count);
+  };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  const displayedBands = filteredBands.slice(
+  const displayedBands = bands.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE,
   );
@@ -104,17 +99,6 @@ export default function BandFeature({
               </div>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="flex justify-center">
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index}
-            onClick={() => handlePageChange(index + 1)}
-            className={`mx-1 px-2 py-1 ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
-          >
-            {index + 1}
-          </button>
         ))}
       </div>
     </>
